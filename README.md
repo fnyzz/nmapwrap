@@ -1,2 +1,1 @@
-# nmapwrap
-Wrapper for Nmap automation
+# Nmap Wrapper for automation
