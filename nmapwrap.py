@@ -25,19 +25,6 @@
 #@(#)     Default Location:
 #@(#)     Invoked by:  Ketil
 #@(#) ----------------------------------------------------------------
-"""
-Werfen  nmap wrapper
-- Creates catalog /opt/wil/results if they does not exists
-  - set the permission to the logon user. ( if you are logged inn as root, then
-    root becomes the owner of the catalog )
-- Keep the result catalog nice and tiedy, keep only xml files
-- Copy the files to the /export/nmapdata/ katalog
-- keep all scan log from nmap in dayly log file
--
-- hadles IPv6 scans :-)
--
-
-"""
 from libnmap.parser import NmapParser
 from netaddr import *
 import platform

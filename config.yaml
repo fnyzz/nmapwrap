@@ -1,0 +1,86 @@
+#@(#)________________________________________________________________
+#@(#) Copyright(C) 2025 fnyxzz
+#@(#) All rights reserved.
+#@(#)
+#@(#) Use and distribution of this software and its source code
+#@(#) are governed by the terms and conditions of the
+#@(#) fnyxzz lisence ("LICENSE.TXT")
+#@(#) ----------------------------------------------------------------
+#@(#) Name          :       config.yaml
+#@(#) Author        :       Ketil Heggtveit
+#@(#) ----------------------------------------------------------------
+#@(#) Description   :       Configuration file for the nmapwrap 
+#@(#)                       program 
+#@(#) Default Location:     /opt/nmapwrap
+#@(#) ----------------------------------------------------------------
+#  +  ---------------------------------------------------------------- 
+#  +  Application definition 
+#  +  ---------------------------------------------------------------- 
+app:
+  name: nmapwrap
+  version: 1.0.0
+  environment: production
+
+#  +  ---------------------------------------------------------------- 
+#  +  local directories environment 
+#  +  ---------------------------------------------------------------- 
+installation:
+  root: /opt 
+  home: nmapwrap
+  nmapdata: result
+  log: logs 
+  export: export 
+#  +  ---------------------------------------------------------------- 
+#  +  Logging configuration 
+#  +  ---------------------------------------------------------------- 
+  username: nmapu
+  accessrights: 0x755
+
+#  +  ---------------------------------------------------------------- 
+#  +  Logging configuration 
+#  +  ---------------------------------------------------------------- 
+logging:
+  level: INFO
+  file: nmapwrap.log
+
+#  +  ---------------------------------------------------------------- 
+#  +  NMAP result for export 
+#  +  ---------------------------------------------------------------- 
+export:
+  exportdir: export
+
+#  +  ---------------------------------------------------------------- 
+#  +  sources 
+#  +  ---------------------------------------------------------------- 
+sources:
+   nmap: /opt/homebrew/bin/nmap 
+   rsync: /usr/bin/rsync 
+
+#  +  ---------------------------------------------------------------- 
+#  +  nmap discover settings 
+#  +  ---------------------------------------------------------------- 
+nmapdiscovercfg:
+  max-hostgrop: 150 
+  max-retries: 4 
+  min-rrt-timeout: 100ms 
+  initial-rtt-timeout: 500ms
+  scan-delay: 2ms
+  max-scan-delay: 20ms 
+  min-rate: 450 
+  max-rate: 15000 
+  max-rtt-timeout: 50ms 
+
+   
+#  +  ---------------------------------------------------------------- 
+#  +  nmap Full settings 
+#  +  ---------------------------------------------------------------- 
+nmapfullcfg:
+  max-hostgrop: 150 
+  max-retries: 4 
+  min-rrt-timeout: 100ms 
+  initial-rtt-timeout: 500ms
+  scan-delay: 2ms
+  max-scan-delay: 20ms 
+  min-rate: 450 
+  max-rate: 15000 
+  max-rtt-timeout: 50ms 
