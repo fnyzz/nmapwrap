@@ -40,7 +40,7 @@ installation:
 #  +  Logging configuration 
 #  +  ---------------------------------------------------------------- 
 logging:
-  level: DEBUG
+  level: INFO
   file: nmapwrap.log
 
 #  +  ---------------------------------------------------------------- 

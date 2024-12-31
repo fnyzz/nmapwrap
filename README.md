@@ -1,4 +1,3 @@
-# Nmap Wrapper for automation
 # nmapwrapper 
 
 This python program targets the automation of running nmap in a production environment. It takes a configuration file on the YAML format and run the nmap with this configuration. You may have different configuration files for different netsegments, clients etc. The are differnet reason you want to run nmap using this wrapper. 
@@ -24,7 +23,9 @@ $ apt-get install nmap
 
 $ pip3 install -r requirements.txt
 
-
+$ sudo ./install.py 
 
 # That's all is needed to get started
 ```
+
+
