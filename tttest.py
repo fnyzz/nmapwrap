@@ -5,8 +5,8 @@ def read_yaml_config(file_path):
     """
     Reads a YAML configuration file and returns it as a dictionary.
 
-    Args:
-        file_path (str): Path to the YAML configuration file.
+
+    Args: file_path (str): Path to the YAML configuration file.
 
     Returns:
         dict: The configuration data.
