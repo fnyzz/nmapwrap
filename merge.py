@@ -1,7 +1,7 @@
 import yaml
 import os
 
-class ConfigReader:
+class YamlConfigReader:
     def __init__(self, file1: str, file2: str):
         self.file1 = file1
         self.file2 = file2
@@ -29,12 +29,14 @@ class ConfigReader:
 # Example usage:
 if __name__ == "__main__":
     # Replace with the paths to your YAML files
-    file1 = "config1.yaml"
-    file2 = "config2.yaml"
+    file1 = "config/config.yaml"
+    file2 = "config/TestClient.yaml"
 
     config_reader = YamlConfigReader(file1, file2)
     merged_config = config_reader.merge_configs()
 
     print("Merged Configuration:")
-    print(merged_config)
+    for i,j in merged_config.items():
+        print (f"i j {i} {j} ")
+#     print(merged_config)
 

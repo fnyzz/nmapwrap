@@ -21,9 +21,15 @@ import optparse
 import os
 import sys
 import logging
-from LinuxPathValidator import LinuxPathValidator
+from datetime import datetime
+from Validator import Validator
+from LogCreator import LoggerCreator
+from DirManager import DirManager
+from optparse import OptionParser
+from UUIDGenerator import UUIDGenerator
+from NmapRunner import NmapRunner
 
-
+nmapwrapConfig = "config/config.yaml"
 
 #(@) + ----------------------------------------------
 #(@) +
@@ -36,12 +42,15 @@ print (" ")
 epilog="""
 
 examples of usage:
-scan a few ports:
-sudo ./wilscan959.py -c "t-0345_my_hackingfactory "  -i "10.1.2.31"  -p "34, 45, 56, 80, 445 " -d -P
+
+sudo ./main.py --config myclient.yaml
+sudo ./main.py --config myclient.yaml --quiet
+
 
 """
 optparse.OptionParser.format_epilog = lambda self, formatter: self.epilog
-
+parser=OptionParser(usage='%prog --config  <name of project> ', epilog=epilog)
+parser.add_option('--quiet',action='store_true',  help='No output to std.out, only logfile ',dest='quiet')
 parser.add_option(
     '-c',
     '--config',
@@ -54,41 +63,122 @@ program = os.path.basename(sys.argv[0] )
 
 def main (argv):
 
-    #  +  -----------------------
-    #  +  Checking if we have a spesific config file.
-    if options.config:
-        config_file_path = options.config
-        # print (f"config file {config_file_path}")
-    else:
-        print (f"Error: Need a yaml config file")
+    #  +  -----------------------------------------------------------
+    #  +  Checking if the main configfile
+    #  +  exists
+    if not os.path.isfile(nmapwrapConfig):
+        print (f"{now} Error: Need the std yaml config file")
         sys.exit(99)
-    if not LinuxPathValidator(config_file_path).is_valid():
-        print ("Illegal charachter in input filename " )
-        sys.exit()
 
-    config_reader = ConfigReader(config_file_path)
+    #  +  -----------------------------------------------------------
+    #  +  Checking if we have a spesific config file.
+    now = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
+    if options.config:
+        ClientConfigFile = options.config
+    else:
+        print (f"{now} Error: Need a yaml config file")
+        sys.exit(99)
+
+    if not Validator(nmapwrapConfig).is_valid_filedir():
+        print (f" {now} Illegal charachter in input filename " )
+        sys.exit(99)
+
     try:
-        config_reader.load_config()
-        appname = config_reader.get("app.name")
-        appver  = config_reader.get("app.version")
-        appenv  = config_reader.get("app.environment")
-        print (f"Application name: {appname}")
-        print (f"Application version: {appver}")
-        print (f"Application environemnt: {appenv}")
+        #(@) +  -----------------------------------------------------------
+        #(@) + Reading the std config.yaml file
+        #(@) + Reading the client yaml config file
+        #(@) + Merge into on dictionary
+
+        config_reader = ConfigReader(nmapwrapConfig,ClientConfigFile)
+        mconfig = config_reader.merge_configs()
+
+        #(@) +  -----------------------------------------------------------
+        #(@) + Getting new UUID
+        uuid_generator = UUIDGenerator()
+        unique_id = uuid_generator.generate_uuid()
+
+        #(@) +  -----------------------------------------------------------
+        #(@) + Getting the log dir and filename from dict
+        log_dir = mconfig['logging']['dir']
+        log_file= mconfig['logging']['file']
+        log_level=mconfig['logging']['level']
+
+        #(@) +  -----------------------------------------------------------
+        #(@) + Setting up a default log handler, where all program logs are written
+        #(@) + Log directory and file is created if not exists
+        #(@) + This file is not currently rotated.
+        logger_creator = LoggerCreator(log_dir, log_file,log_level,unique_id,options.quiet )
+        logger = logger_creator.get_logger(program)
+        logger.info("Program start" )
+        logger.debug("directories: %s %s %s ", log_dir, log_file, log_level)
+
+        #(@) +  -----------------------------------------------------------
+        #(@) + reading app name and version
+        appname = mconfig['app']['name']
+        appver  = mconfig['app']['version']
+        appenv  = mconfig['app']['environment']
+        logger.debug("App data: {appname}  {appver} {appenv}" )
+
+        #(@) + ----------------------------------------------
+        #(@) + Checking if source from config.yaml is installed
+
+        dsources = mconfig.get('sources',{})
+        logger.debug("Checking binaries and ports.yaml file" )
+        for i,j in dsources.items():
+            if not os.path.isfile(j):
+                logger.error(f"Requiered program {j} is not installed ")
+                logger.info("Bailing out!!" )
+                sys.exit()
+
+        #(@) + ----------------------------------------------
+        #(@) + Checking if the prod. environment from config.yaml
+        #(@) + exists. If not => create it
+        manager = DirManager(mconfig,logger=logger)
+        # manager = DirectoryManager(mconfig,logger=logger)
+        try:
+            #(@) + ----------------------------------------------
+            #(@) + Checking the environment
+            manager.manage_directories()
+
+#            clientName = mconfig.get("client", {}).get("name")
+#            clientHome = mconfig.get("client", {}).get("clienthome")
+#            clientIP = mconfig.get("client", {}).get("clientip")
+#
+#            print (f"Cient name {clientName} ")
+#            print (f"Cient home {clientHome} ")
+#            print (f"Cient ip {clientIP} ")
+#            print (mconfig.get("client") )
+
+            #(@) + ----------------------------------------------
+            #(@) + Reading all entried from dict which starts with nmap_ #nmap config
+            #(@) +         sorting the entris based upon the key order
+            #(@) + Getting the client info
+            #(@) + Getting path to nmap binaries
+            #(@) +
+            nmapconfig = {key: value for key, value in mconfig.items() if key.startswith('nmap_')}
+            sorted_nmapconfig = dict(sorted(nmapconfig.items(), key=lambda item: item[1]['order']))
+            ClientDict = mconfig.get("client")
+            NmapBIN    = mconfig.get("sources", {}).get("nmap")
+
+            # print(ClientDict)
+            for i,ncfg in sorted_nmapconfig.items():
+                #logger.info(f"Running Nmap {i} with config: {ncfg} ")
+                #logger.info(f"Running Nmap {i} with config ")
+                #print (ncfg)
+                runner = NmapRunner(ClientDict, NmapBIN, ncfg, logger)
+                runner.run()
 
 
-        instroot = config_reader.get("installation")
-        #help(instroot)
-        print (f" Environment: {config_reader.get('installation.root')} ")
+        except SystemExit as e:
+            logger.warning(f"Directory management failed with exit code: {e.code}")
+            sys.exit()
 
+        logger.info("Program stop successfully" )
 
-        approot = config_reader.get("installation.root", "/opt/nmapwrap")
-        appuser = config_reader.get("installatoin.username", 'nobody')
-        print(f"Installation root: {approot}")
-        print(f"Installation user: {appuser}")
     except Exception as e:
-        print(f"Error: {e}")
+        print(f"{now} Exception Error: {e}")
 
 
 if __name__ == "__main__":
     main(sys.argv)
+

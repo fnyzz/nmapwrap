@@ -1,0 +1,52 @@
+#@(#)________________________________________________________________
+#@(#) Copyright(C) 2025 fnyxzz
+#@(#) All rights reserved.
+#@(#)
+#@(#) Use and distribution of this software and its source code
+#@(#) are governed by the terms and conditions of the
+#@(#) fnyxzz lisence ("LICENSE.TXT")
+#@(#) ----------------------------------------------------------------
+#@(#) Name          :       TestClient.yaml
+#@(#) Author        :       Ketil Heggtveit
+#@(#) ----------------------------------------------------------------
+#@(#) Description   :       Configuration file for the client 
+#@(#)               :       home
+#@(#) Default Location:     
+#@(#) ----------------------------------------------------------------
+#  +  ---------------------------------------------------------------- 
+#  +  Client information 
+#  +  ---------------------------------------------------------------- 
+client:
+  name: TestClient
+  clienthome : /opt/nmapwrap/data/
+  clientip: 10.0.0.0/24 
+
+#  +  ---------------------------------------------------------------- 
+#  +  nmap discover settings 
+#  +  ---------------------------------------------------------------- 
+nmap_discovercfg:
+  max-hostgroup: 150 
+  max-retries: 4 
+  min-rrt-timeout: 100ms 
+  initial-rtt-timeout: 500ms
+  scan-delay: 2ms
+  max-scan-delay: 20ms 
+  min-rate: 450 
+  max-rate: 15000 
+  max-rtt-timeout: 50ms 
+
+   
+#  +  ---------------------------------------------------------------- 
+#  +  nmap Full settings 
+#  +  ---------------------------------------------------------------- 
+nmap_fullcfg:
+  max-hostgroup: 150 
+  max-retries: 4 
+  min-rrt-timeout: 100ms 
+  initial-rtt-timeout: 500ms
+  scan-delay: 2ms
+  max-scan-delay: 20ms 
+  min-rate: 450 
+  max-rate: 15000 
+  max-rtt-timeout: 50ms 
+
