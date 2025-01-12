@@ -162,11 +162,10 @@ def main (argv):
 
             # print(ClientDict)
             for i,ncfg in sorted_nmapconfig.items():
-                #logger.info(f"Running Nmap {i} with config: {ncfg} ")
-                #logger.info(f"Running Nmap {i} with config ")
-                #print (ncfg)
+                print (f" i : {i}")
                 runner = NmapRunner(ClientDict, NmapBIN, ncfg, logger)
-                runner.run()
+                lfp = runner.run()
+                print (f" Log File Path: {lfp}")
 
 
         except SystemExit as e:

@@ -23,6 +23,9 @@ app:
 
 #  +  ---------------------------------------------------------------- 
 #  +  local directories environment 
+#  +  std. env needed to run and store data. 
+#  +  This can be any available directory 
+#  +  root will create the dirs and give the ownership to the uid 
 #  +  ---------------------------------------------------------------- 
 installation:
   root:     /opt/nmapwrap
@@ -30,6 +33,7 @@ installation:
   export:   /opt/nmapwrap/export 
 #  +  ---------------------------------------------------------------- 
 #  +  uid 
+#  +  userid and access rights for the nmap data 
 #  +  ---------------------------------------------------------------- 
 uid: 
   username: ketilheggtveit
@@ -37,6 +41,8 @@ uid:
 
 #  +  ---------------------------------------------------------------- 
 #  +  Logging configuration 
+#  +  output level, logfilename, location 
+#  +  This filename is NOT rotated by nmapwrap program 
 #  +  ---------------------------------------------------------------- 
 logging:
   level: DEBUG
@@ -45,8 +51,9 @@ logging:
 
 #  +  ---------------------------------------------------------------- 
 #  +  sources 
+#  +  list of binaries which needs to be installed 
+#  +  These are pre-requisite needed 
 #  +  ---------------------------------------------------------------- 
 sources:
-   nmap: /opt/homebrew/bin/nmap 
-   rsync: /usr/bin/rsync 
-   ports: ports.yaml
+   nmap: /opt/homebrew/bin//nmap
+   rsync: /usr/bin/rsync

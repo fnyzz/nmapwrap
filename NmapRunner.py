@@ -3,7 +3,6 @@ import sys
 from time import strftime
 from datetime import datetime
 import time
-
 from pathlib import Path
 
 class NmapRunner:
@@ -20,6 +19,7 @@ class NmapRunner:
         self.nmap_config = nmap_config
         self.logger = logger
         self._validate_inputs()
+        self._debug_initialization()
 
     def _validate_inputs(self):
         """Validate the provided inputs."""
@@ -36,13 +36,21 @@ class NmapRunner:
         if not isinstance(self.nmap_config, dict):
             raise ValueError("nmap_config must be a dictionary.")
 
+    def _debug_initialization(self):
+        print(f"Initialized NmapRunner with:")
+        print(f"  client_data: {self.client_data}")
+        print(f"  nmap_path: {self.nmap_path}")
+        print(f"  nmap_config: {self.nmap_config}")
+
     def _build_command(self):
         """Build the nmap command using the configuration dictionary."""
         command = [str(self.nmap_path)]
-        scantype =None
+        scantype = None
 
         for key, value in self.nmap_config.items():
-            print (f" Key Value {key} {value} ")
+            self.logger.debug(f"Key  {key} Value: {value}")
+            key = str(key)
+            value = str(value)
             if key == 'order':
                 continue
             if key == 'scanflag':
@@ -62,11 +70,9 @@ class NmapRunner:
         target_ips = self.client_data.get("clientip", [])
         if not target_ips:
             raise ValueError("No target IP addresses provided in client_data.")
-#        print (f"target ip: {target_ips}")
 
         command.append(target_ips)
-        # print(' '.join(command))
-        return command,scantype
+        return command, scantype
 
     def run(self):
         """Run the nmap command as a subprocess and log output."""
@@ -78,25 +84,43 @@ class NmapRunner:
         log_file_path = logdir_path / ClientName / f"{datetoday}.{ClientName}.log"
         log_file_path.parent.mkdir(parents=True, exist_ok=True)
 
-        command, scantype =  self._build_command()
+        print (f"suffix {self.nmap_config['suffix']}  ")
+        print (f"scan type  {self.nmap_config['scan-type']}  ")
+        print (f"order {self.nmap_config['order']}  ")
 
+        try:
+            suffix = self.nmap_config.pop('suffix')
+            print (suffix)
+        except Exception as e:
+            if self.logger:
+                self.logger.error(f"Fail in parsing filename suffix: {e}")
+            else:
+                print(f"Fail in parsing filename suffix : {e}")
+
+        #(#) +  ------------------------------------------------------
+        #(#) +  building the Nmap command from the input dict.
+        command, scantype = self._build_command()
+
+        #(#) +  ------------------------------------------------------
+        #(#) +  building the report file
         NmapReportName = f"{scandatetime}_{scantype}_{ClientName}"
-        command = [item.replace('discovery', NmapReportName) if 'discovery' in item else item for item in command]
+        FullPathReport = str(logdir_path) + "/" +  str(ClientName)  + "/" + NmapReportName + "." + suffix
 
-        command = (' '.join(command))
+        command = [item.replace(scantype, FullPathReport) if scantype in item else item for item in command]
+        command = " ".join(command)
 
         if self.logger:
-            self.logger.info(f"Nmap {scantype} command to run {command}")
-        else:
-            print(f"Nmap {scantype} command to run {command}")
-        dir(command)
+            self.logger.debug(f"Nmap {scantype} command to run: {command}")
+        #else:
+        #    print(f"Nmap {scantype} command to run: {command}")
+
         try:
             with open(log_file_path, "a") as dailylogfile:
                 process = subprocess.Popen(
                     [command],
                     stdout=dailylogfile,
                     stderr=subprocess.PIPE,
-                    text=True
+                    shell=True
                 )
                 stdout, stderr = process.communicate()
                 if process.returncode != 0:
@@ -104,20 +128,20 @@ class NmapRunner:
 
                 if self.logger:
                     self.logger.info(f"Nmap completed successfully: {stdout}")
+                else:
+                    print(f"Nmap completed successfully: {stdout}")
         except Exception as e:
             if self.logger:
                 self.logger.error(f"Error running nmap: {e}")
             else:
                 print(f"Error running nmap: {e}")
-        raise
         return log_file_path
-
 
 # Example Usage:
 # client_data = {
 #     "name": "Client1",
-#     "logdir": "/path/to/logs",
-#     "IP_addresses": ["192.168.1.1", "192.168.1.2"]
+#     "clienthome": "/path/to/logs",
+#     "clientip": ["192.168.1.1", "192.168.1.2"]
 # }
 # nmap_path = "/usr/bin/nmap"
 # nmap_config = {
@@ -127,4 +151,3 @@ class NmapRunner:
 # }
 # runner = NmapRunner(client_data, nmap_path, nmap_config)
 # runner.run()
-

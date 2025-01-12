@@ -23,11 +23,16 @@ client:
 
 #  +  ---------------------------------------------------------------- 
 #  +  nmap discover settings 
+#  +  Called Ping scan. This detects host on the network. 
+#  +  
+#  +  NB! important! host may be online if none of these ports are 
+#  +  reachable. Should always know your environment before scanning
+#  +  Change ports to suite your needs. 
 #  +  ---------------------------------------------------------------- 
 nmap_discoverycfg:
   order: 1 
   scan-type: discovery
-  scanflag: -sS -n -PE 
+  scanflag: -sn -n -PE 
   max-hostgroup: 150 
   max-retries: 4 
   min-rtt-timeout: 100ms 
@@ -38,6 +43,28 @@ nmap_discoverycfg:
   max-rate: 15000 
   max-rtt-timeout: 50ms 
   reports: -oA 
-  ports: -p 22
+  suffix: ping
+  ports:  -PS21-23,25-26,53,80-81,110-111,113,135,139,143,443,445,465
+          ,514-515,587,993,995,1025-1026,1433,3306,3389,5060,5432,5900
+          ,6000,6881,8000,8008,8080,8443
 
 
+#  +  ----------------------------------------------------------------
+#  +  nmap Full settings
+#  +  ----------------------------------------------------------------
+nmap_fullcfg:
+  order: 2
+  scan-type: full
+  scanflag: -sS -n -PE
+  max-hostgroup: 150
+  max-retries: 4
+  min-rtt-timeout: 100ms
+  initial-rtt-timeout: 500ms
+  scan-delay: 2ms
+  max-scan-delay: 20ms
+  min-rate: 450
+  max-rate: 15000
+  max-rtt-timeout: 50ms
+  reports: -oA
+  suffix: tcp
+  ports: -p 1-1023
