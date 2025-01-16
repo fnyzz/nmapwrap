@@ -23,10 +23,42 @@ client:
 
 #  +  ---------------------------------------------------------------- 
 #  +  nmap discover settings 
+#  +  Called Ping scan. This detects host on the network. 
+#  +  If the ICMP ping does not discover the host, then 
+#  +  Nmap will run a tcp ping on the spesified ports. 
+#  +  Add/delete ports which fits your environment. 
+#  +  NB! important! host may be online if none of these ports are 
+#  +  reachable. Should always know your environment before scanning
+#  +  Change ports to suite your needs. 
 #  +  ---------------------------------------------------------------- 
 nmap_discoverycfg:
-  order: 1
+  order: 1 
   scan-type: discovery
+  suffix: ping
+  genonlinehosts: True
+  scanflag: -sn -n -PE 
+  max-hostgroup: 150 
+  max-retries: 4 
+  min-rtt-timeout: 100ms 
+  initial-rtt-timeout: 500ms
+  scan-delay: 2ms
+  max-scan-delay: 20ms 
+  min-rate: 450 
+  max-rate: 15000 
+  max-rtt-timeout: 50ms 
+  reports: -oA 
+  ports:  -PS21-23,25-26,53,80-81,110-111,113,135,139,143,443,445,465
+          ,514-515,587,993,995,1025-1026,1433,3306,3389,5060,5432,5900
+          ,6000,6881,8000,8008,8080,8443
+
+#  +  ----------------------------------------------------------------
+#  +  nmap Normal scan 
+#  +  we scan the top 4000 ports 
+#  +  ----------------------------------------------------------------
+nmap_normal:
+  order: 2
+  scan-type: normal
+  suffix: tcp
   scanflag: -sS -n -PE
   max-hostgroup: 150
   max-retries: 4
@@ -38,46 +70,5 @@ nmap_discoverycfg:
   max-rate: 15000
   max-rtt-timeout: 50ms
   reports: -oA
-  ports: -p 22
-
-   
-#  +  ---------------------------------------------------------------- 
-#  +  nmap Full settings 
-#  +  ---------------------------------------------------------------- 
-nmap_fullcfg:
-  order: 2
-  scan-type: full
-  scanflag: -sS -n -PE
-  max-hostgroup: 150 
-  max-retries: 4 
-  min-rtt-timeout: 100ms 
-  initial-rtt-timeout: 500ms
-  scan-delay: 2ms
-  max-scan-delay: 20ms 
-  min-rate: 450 
-  max-rate: 15000 
-  max-rtt-timeout: 50ms 
-  reports: -oA
-  ports: -p 1-1023 
-
-
-#  +  ---------------------------------------------------------------- 
-#  +  nmap top 2096 ports 
-#  +  ---------------------------------------------------------------- 
-nmap_top2096:
-  order: 3
-  scan-type: top2000
-  scanflag: -sS -n -PE
-  max-hostgroup: 150 
-  max-retries: 4 
-  min-rtt-timeout: 100ms 
-  initial-rtt-timeout: 500ms
-  scan-delay: 2ms
-  max-scan-delay: 20ms 
-  min-rate: 450 
-  max-rate: 15000 
-  max-rtt-timeout: 50ms 
-  reports: -oA
-  top-ports: 2096
-
+  top-ports: 1024
 

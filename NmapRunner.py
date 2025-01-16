@@ -6,7 +6,7 @@ import time
 from pathlib import Path
 
 class NmapRunner:
-    def __init__(self, client_data, nmap_path, nmap_config, logger=None):
+    def __init__(self, client_data, nmap_path, nmap_config, sessionID, logger=None):
         """
         Initialize the NmapRunner class.
 
@@ -17,9 +17,10 @@ class NmapRunner:
         self.client_data = client_data
         self.nmap_path = Path(nmap_path)
         self.nmap_config = nmap_config
+        self.sessionID = sessionID
         self.logger = logger
         self._validate_inputs()
-        self._debug_initialization()
+        #self._debug_initialization()
 
     def _validate_inputs(self):
         """Validate the provided inputs."""
@@ -53,6 +54,8 @@ class NmapRunner:
             value = str(value)
             if key == 'order':
                 continue
+            if key == 'genonlinehosts':
+                continue
             if key == 'scanflag':
                 command.append(f"{value}")
             elif key == 'scan-type':
@@ -66,31 +69,22 @@ class NmapRunner:
             else:
                 continue
 
-        # Add target IPs from client_data
-        target_ips = self.client_data.get("clientip", [])
-        if not target_ips:
-            raise ValueError("No target IP addresses provided in client_data.")
-
-        command.append(target_ips)
         return command, scantype
 
     def run(self):
         """Run the nmap command as a subprocess and log output."""
+        #(#)  + ---------------------------------------------------------
+        #(#)  +  housekeeping varaibles
         now = datetime.now()
+        onlineFile = None
         datetoday = strftime("%Y%m%d")
-        scandatetime = now.strftime("%Y%m%dT%H%M%S")
         ClientName = Path(self.client_data['name'])
         logdir_path = Path(self.client_data['clienthome'])
         log_file_path = logdir_path / ClientName / f"{datetoday}.{ClientName}.log"
         log_file_path.parent.mkdir(parents=True, exist_ok=True)
 
-        print (f"suffix {self.nmap_config['suffix']}  ")
-        print (f"scan type  {self.nmap_config['scan-type']}  ")
-        print (f"order {self.nmap_config['order']}  ")
-
         try:
             suffix = self.nmap_config.pop('suffix')
-            print (suffix)
         except Exception as e:
             if self.logger:
                 self.logger.error(f"Fail in parsing filename suffix: {e}")
@@ -103,17 +97,48 @@ class NmapRunner:
 
         #(#) +  ------------------------------------------------------
         #(#) +  building the report file
-        NmapReportName = f"{scandatetime}_{scantype}_{ClientName}"
+        #(#) +
+        NmapReportName = f"{self.sessionID}_{scantype}_{ClientName}"
         FullPathReport = str(logdir_path) + "/" +  str(ClientName)  + "/" + NmapReportName + "." + suffix
+        onlineFile = logdir_path / ClientName / f"onlinehosts.{ClientName}.txt"
 
+
+        #(#) +  ------------------------------------------------------
+        #(#) +  If the genonlinehosts is set, then we use the IP from the
+        #(#) +  client config. You may use genonlinehosts in all section, but
+        #(#) +  the point is to have the ping find host online to speed up
+        #(#) +  the next steps.
+        #(#) +  if this is not set, then we read IP from file -iL
+        #(#) +
+        target_ips = self.client_data.get("clientip", [])
+        if self.nmap_config.get('genonlinehosts'):
+            if not target_ips:
+                raise ValueError("No target IP addresses provided in client_data.")
+            command.append(target_ips)
+        else:
+            #(#) + Building the nmap -iL <onlinehosts.txt>
+            #(#) + Adding this to the nmap command
+            target_ips = "-iL  " + str(onlineFile)
+            command.append(target_ips)
+
+        #(#) +  ------------------------------------------------------
+        #(#) +  Replacing the 'scan-type' in the command with the correct
+        #(#) +  Nmap output filename.
+        #(#) +  Converting from List object to String.
+        #(#) +
         command = [item.replace(scantype, FullPathReport) if scantype in item else item for item in command]
         command = " ".join(command)
 
         if self.logger:
             self.logger.debug(f"Nmap {scantype} command to run: {command}")
-        #else:
-        #    print(f"Nmap {scantype} command to run: {command}")
 
+        #(#) +  ------------------------------------------------------
+        #(#) +  using Python subprocess to run the nmap command
+        #(#) +  shell=true is not the best option for secuirty, but this program
+        #(#) +  need to run as root ( nmap -sS needs root access).
+        #(#) +  The output to the console is frozen and output is sent to the dailylogfile
+        #(#) +  where you can monitor the output from the nmap command.
+        #(#) +
         try:
             with open(log_file_path, "a") as dailylogfile:
                 process = subprocess.Popen(
@@ -135,7 +160,10 @@ class NmapRunner:
                 self.logger.error(f"Error running nmap: {e}")
             else:
                 print(f"Error running nmap: {e}")
-        return log_file_path
+        print (f"onlineFile {onlineFile}")
+        print (f"FullPathReport {FullPathReport}")
+
+        return onlineFile, FullPathReport
 
 # Example Usage:
 # client_data = {

@@ -21,6 +21,8 @@ import optparse
 import os
 import sys
 import logging
+import time
+from time import strftime
 from datetime import datetime
 from Validator import Validator
 from LogCreator import LoggerCreator
@@ -28,6 +30,9 @@ from DirManager import DirManager
 from optparse import OptionParser
 from UUIDGenerator import UUIDGenerator
 from NmapRunner import NmapRunner
+from SetPermission import SetPermission
+from NmapParser import NmapParser
+
 
 nmapwrapConfig = "config/config.yaml"
 
@@ -139,6 +144,8 @@ def main (argv):
             #(@) + ----------------------------------------------
             #(@) + Checking the environment
             manager.manage_directories()
+            sessionID = strftime("%Y%m%dT%H%M%S")
+            xmlList = []
 
 #            clientName = mconfig.get("client", {}).get("name")
 #            clientHome = mconfig.get("client", {}).get("clienthome")
@@ -161,13 +168,42 @@ def main (argv):
             NmapBIN    = mconfig.get("sources", {}).get("nmap")
 
             # print(ClientDict)
-            for i,ncfg in sorted_nmapconfig.items():
-                print (f" i : {i}")
-                runner = NmapRunner(ClientDict, NmapBIN, ncfg, logger)
-                lfp = runner.run()
-                print (f" Log File Path: {lfp}")
+            for i,dictnmapcfg in sorted_nmapconfig.items():
+                #print (f" i : {i}")
+                #print (f"onlinehosts : {dictnmapcfg.get('onlinehosts')}")
+                runner = NmapRunner(ClientDict, NmapBIN, dictnmapcfg, sessionID, logger)
+                online_filename,x_file = runner.run()
+                xml_filename = x_file +".xml"
+                xmlList.append(xml_filename)
+                print (f" XML  file : {xml_filename}")
+                print (f" Online file : {online_filename}")
+                if dictnmapcfg.get('genonlinehosts'):
+                    #(#) + --------------------------------------------------------------------------
+                    #(#) + grab all hosts which is alive from the ping.xml file
+                    #(#) + run
+                    print (f" We have to do some xml mombo jumbo {dictnmapcfg.get('onlinehosts')}")
+                    print (f" ping : {xml_filename}")
+                    parser = NmapParser(xml_filename)
+                    parser.write_alive_hosts_to_file(online_filename)
+                    print (f"Parsing done!")
+                else:
+                    print(f"Getting open ports from {xml_filename}")
 
+            #(#) + -----------------------------------------
+            #(#) + Getting
 
+            #(#) + -----------------------------------------
+            #(#) + Cleaning up user and access rights.
+            user_info = mconfig.get('uid',{})
+            CLName = mconfig.get('client',{}).get('name')
+            d = mconfig.get('client',{}).get('clienthome')
+            directory = d + "/" + CLName
+            print (f" SetPermission with thisinfo : {mconfig.get('uid',{})}")
+            print (f" SetPermission with thisinfo : {directory}")
+            permission_setter = SetPermission(user_info, directory, logger)
+            permission_setter.set_permissions()
+
+            print (f"XML files: {xmlList}")
         except SystemExit as e:
             logger.warning(f"Directory management failed with exit code: {e.code}")
             sys.exit()
@@ -180,4 +216,3 @@ def main (argv):
 
 if __name__ == "__main__":
     main(sys.argv)
-

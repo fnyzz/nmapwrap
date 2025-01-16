@@ -1,2 +1,5 @@
 python3-nmap
 pymsteams
+IPAddress
+netaddr
+python-libnmap
