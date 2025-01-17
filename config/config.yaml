@@ -45,7 +45,7 @@ uid:
 #  +  This filename is NOT rotated by nmapwrap program 
 #  +  ---------------------------------------------------------------- 
 logging:
-  level: DEBUG
+  level: INFO
   file: nmapwrap.log
   dir:  /opt/nmapwrap/logs 
 

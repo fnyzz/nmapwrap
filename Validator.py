@@ -35,22 +35,26 @@ class Validator:
 #@(#) What:  Validates the string as a valid Linux filename or path.
 #@(#)        :return: True if the string is valid, False otherwise.
     def is_valid_filedir(self) -> bool:
-        # Ensure the string is not empty
+        #  +  -----------------------------------------------------------
+        #  +  Make sure the string is not empty
         if not self.path:
             return False
 
-        # Ensure the string does not contain invalid characters, including spaces
-        # Invalid characters for filenames in Linux are null character, '/', and space
+        #  +  -----------------------------------------------------------
+        #  +  Checking if the string contain invalid characters, including spaces
+        #  +  Invalid characters for filenames in Linux are null character, '/', and space
         invalid_chars = re.compile(r'[<>:"|?*\0 ]')  # Added space to the pattern
         if invalid_chars.search(self.path):
             return False
 
-        # Ensure no component of the path is longer than 255 characters
+        #  +  -----------------------------------------------------------
+        #  +  Checking if any element of the path is longer than 255 characters
         components = self.path.split('/')
         if any(len(comp) > 255 for comp in components if comp):  # Ignore empty parts from multiple slashes
             return False
 
-        # Check the overall path length does not exceed 4096 characters
+        #  +  -----------------------------------------------------------
+        #  +  Check the overall path length does not exceed 4096 characters
         if len(self.path) > 4096:
             return False
 
@@ -71,7 +75,6 @@ if __name__ == "__main__":
         "a" * 300,  # Too long component
         "/home/user/" + "a" * 300,  # Valid component too long
     ]
-
     for path in test_paths:
         validator = LinuxPathValidator(path)
         result = validator.is_valid()

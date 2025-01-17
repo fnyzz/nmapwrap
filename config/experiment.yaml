@@ -19,7 +19,7 @@
 client:
   name: experiment
   clienthome : /opt/nmapwrap/data/
-  clientip: 195.88.55.16 18.239.183.54 104.26.11.132
+  clientip: 195.88.55.16 18.239.183.54 104.26.11.132 151.101.195.5 
 
 #  +  ---------------------------------------------------------------- 
 #  +  nmap discover settings 
@@ -59,7 +59,8 @@ nmap_normal:
   order: 2
   scan-type: normal
   suffix: tcp
-  scanflag: -sS -n -PE
+  genonlinehosts: True
+  scanflag: -sS -n 
   max-hostgroup: 150
   max-retries: 4
   min-rtt-timeout: 100ms

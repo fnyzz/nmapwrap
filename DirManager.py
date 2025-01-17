@@ -4,23 +4,32 @@ import pwd
 import grp
 import logging
 
+#@(#) ----------------------------------------------------------------
+#@(@) Class name: DirManager
+#@(#) input:
+#@(#) return:
+#@(#)        Initialize the class with a configuration dictionary and an optional logger.
+#@(#)        :param config: Configuration dictionary containing directory and user info.
+#@(#)        :param logger: Logger instance for logging messages.
 class DirManager:
     def __init__(self, config, logger=None):
-        """
-        Initialize the class with a configuration dictionary and an optional logger.
-
-        :param config: Configuration dictionary containing directory and user info.
-        :param logger: Logger instance for logging messages.
-        """
         self.config = config
         self.logger = logger or self._setup_default_logger()
 
-    def _setup_default_logger(self):
-        """
-        Sets up a default logger if none is provided.
+    #@(#) ----------------------------------------------------------------
+    #@(@) Function:
+    #@(#) input:
+    #@(#) return:
+    #@(#) What:
+    #@(#)
 
-        :return: Configured logger instance.
-        """
+    #@(#) ----------------------------------------------------------------
+    #@(@) Function: _setup_default_logger
+    #@(#) input: self
+    #@(#) What:  Sets up a default logger if none is provided.
+    #@(#) return: Configured logger instance.
+    #@(#)
+    def _setup_default_logger(self):
         logger = logging.getLogger("DirectoryManager")
         if not logger.handlers:
             logger.setLevel(logging.DEBUG)
@@ -32,13 +41,15 @@ class DirManager:
             logger.addHandler(handler)
         return logger
 
+    #@(#) ----------------------------------------------------------------
+    #@(@) Function: validate_directories
+    #@(#) input: self
+    #@(#) return: Returns a list of invalid directories
+    #@(#) What:  Validate that the directory paths in the dictionary are valid Linux directories.
+    #(@#)        Excludes directories containing spaces or non-absolute paths.
+    #@(#)
     def validate_directories(self):
-        """
-        Validate that the directory paths in the dictionary are valid Linux directories.
-        Excludes directories containing spaces or non-absolute paths.
-        Returns a list of invalid directories.
-        """
-        self.logger.info("Starting directory validation.")
+        self.logger.debug("Starting directory validation.")
 
         invalid_directories = []
 
@@ -71,15 +82,17 @@ class DirManager:
             else:
                 self.logger.debug(f"Validated client name: {client_name}")
 
-        self.logger.info("Directory validation completed.")
+        self.logger.debug("Directory validation completed.")
         return invalid_directories
 
+    #@(#) ----------------------------------------------------------------
+    #@(@) Function: create_directories
+    #@(#) input:    self
+    #@(#) return:   Returns a list of directories that failed to be created.
+    #@(#) What:     Create the directories specified in the dictionary if they don't exist.
+    #@(#)
     def create_directories(self):
-        """
-        Create the directories specified in the dictionary if they don't exist.
-        Returns a list of directories that failed to be created.
-        """
-        self.logger.info("Starting directory creation.")
+        self.logger.debug("Starting directory creation.")
 
         failed_directories = []
 
@@ -108,7 +121,7 @@ class DirManager:
                     os.makedirs(client_home, exist_ok=True)
                     self.logger.info(f"Created client home directory: {client_home}")
                 else:
-                    self.logger.info(f"Client home directory already exists: {client_home}")
+                    self.logger.debug(f"Client home directory already exists: {client_home}")
 
                 # Create the client name subdirectory
                 client_name_path = os.path.join(client_home, client_name)
@@ -116,20 +129,26 @@ class DirManager:
                     os.makedirs(client_name_path, exist_ok=True)
                     self.logger.info(f"Created client name directory: {client_name_path}")
                 else:
-                    self.logger.info(f"Client name directory already exists: {client_name_path}")
+                    self.logger.debug(f"Client name directory already exists: {client_name_path}")
             except Exception as e:
                 self.logger.error(f"Failed to create client directories: {e}")
                 failed_directories.append(client_home)
 
-        self.logger.info("Directory creation completed.")
+        self.logger.debug("Directory creation completed.")
         return failed_directories
 
+    #@(#) ----------------------------------------------------------------
+    #@(@) Function:
+    #@(#) input:
+    #@(#) return:
+    #@(#) What:
+    #@(#)
     def set_user_and_permissions(self):
         """
         Set ownership and permissions for the directories based on the dictionary.
         Returns True if all operations are successful, otherwise False.
         """
-        self.logger.info("Starting setting user ownership and permissions.")
+        self.logger.debug("Starting setting user ownership and permissions.")
 
         uid_config = self.config.get('uid', {})
         username = uid_config.get('username')
@@ -158,16 +177,6 @@ class DirManager:
 
         success = True
 
-        # Set permissions for installation directories
-#        installation_dirs = self.config.get('installation', {})
-#        for key, path in installation_dirs.items():
-#            try:
-#                os.chown(path, user_uid, user_gid)
-#                os.chmod(path, permissions)
-#                self.logger.info(f"Set ownership to '{username}' and permissions to '{access_rights}' for: {path}")
-#            except Exception as e:
-#                self.logger.error(f"Failed to set ownership/permissions for '{path}': {e}")
-#                success = False
 
         # Set permissions for client directories
         client_config = self.config.get('client', {})
@@ -191,26 +200,36 @@ class DirManager:
         self.logger.info("Setting user ownership and permissions completed.")
         return success
 
+    #@(#) ----------------------------------------------------------------
+    #@(@) Function: manage_directories
+    #@(#) input: self
+    #@(#) return: False
+    #@(#) What: Perform all operations: validation, creation, and setting user/permissions.
+    #@(#) Exits with False if any step fails.
     def manage_directories(self):
-        """
-        Perform all operations: validation, creation, and setting user/permissions.
-        Exits with False if any step fails.
-        """
         self.logger.info("Managing directories started.")
         invalid_directories = self.validate_directories()
+        #  + -------------------------------------------------------------
+        #  + Cheking for valid directories
         if invalid_directories:
             self.logger.error(f"Invalid directories found: {invalid_directories}")
             exit(2)
 
+        #  + -------------------------------------------------------------
+        #  + Creating directories
+        #  + exit if failed
         failed_directories = self.create_directories()
         if failed_directories:
             self.logger.error(f"Failed to create directories: {failed_directories}")
             exit(2)
 
+        #  + -------------------------------------------------------------
+        #  + Setting owner and permission
+        #  + exit if failed
         if not self.set_user_and_permissions():
             self.logger.error(f"Failed to set access rights and owner")
             exit(False)
 
-        self.logger.info("Environment check completed successfully.")
+        self.logger.debug("Environment check completed successfully.")
 
 

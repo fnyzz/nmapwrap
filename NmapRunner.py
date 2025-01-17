@@ -49,7 +49,7 @@ class NmapRunner:
         scantype = None
 
         for key, value in self.nmap_config.items():
-            self.logger.debug(f"Key  {key} Value: {value}")
+            # self.logger.debug(f"Key  {key} Value: {value}")
             key = str(key)
             value = str(value)
             if key == 'order':
@@ -160,8 +160,8 @@ class NmapRunner:
                 self.logger.error(f"Error running nmap: {e}")
             else:
                 print(f"Error running nmap: {e}")
-        print (f"onlineFile {onlineFile}")
-        print (f"FullPathReport {FullPathReport}")
+        self.logger.debug (f"onlineFile {onlineFile}")
+        self.logger.debug (f"FullPathReport {FullPathReport}")
 
         return onlineFile, FullPathReport
 
