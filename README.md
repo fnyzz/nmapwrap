@@ -43,7 +43,7 @@ $ sudo python3 ./nmapwrap.py --config config/MyNetwork.yaml
 **The config.yaml file**  
 This file lists: 
 -where Nmap is installed 
--where you want the resulting Nmap data stoed 
--username and file persmission 
+*where you want the resulting Nmap data stoed 
++username and file persmission 
 
 
