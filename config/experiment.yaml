@@ -17,9 +17,9 @@
 #  +  Client information 
 #  +  ---------------------------------------------------------------- 
 client:
-  name: FullerLN
+  name: experiment
   clienthome : /opt/nmapwrap/data/
-  clientip: 10.0.0.0/24 
+  clientip: 195.88.55.16 18.239.183.54 104.26.11.132
 
 #  +  ---------------------------------------------------------------- 
 #  +  nmap discover settings 
@@ -70,28 +70,5 @@ nmap_normal:
   max-rate: 15000
   max-rtt-timeout: 50ms
   reports: -oA
-  top-ports: 4000 
-
-#  +  ----------------------------------------------------------------
-#  +  nmap Full settings
-#  +  We scan ALL 65535 port using the -p- nmap option. 
-#  +  
-#  +  ----------------------------------------------------------------
-nmap_fullcfg:
-  order: 3
-  scan-type: full
-  suffix: tcp
-  scanflag: -sS -n -PE
-  max-hostgroup: 150
-  max-retries: 4
-  min-rtt-timeout: 100ms
-  initial-rtt-timeout: 500ms
-  scan-delay: 2ms
-  max-scan-delay: 20ms
-  min-rate: 450
-  max-rate: 15000
-  max-rtt-timeout: 50ms
-  reports: -oA
-  ports: -p 1-2040
-
+  top-ports: 1024
 

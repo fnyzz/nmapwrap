@@ -22,6 +22,7 @@ import os
 import sys
 import logging
 import time
+import re
 from time import strftime
 from datetime import datetime
 from Validator import Validator
@@ -32,6 +33,7 @@ from UUIDGenerator import UUIDGenerator
 from NmapRunner import NmapRunner
 from SetPermission import SetPermission
 from NmapParser import NmapParser
+from NmapCSVGenerator import NmapCSVGenerator
 
 
 nmapwrapConfig = "config/config.yaml"
@@ -192,18 +194,30 @@ def main (argv):
             #(#) + -----------------------------------------
             #(#) + Getting
 
-            #(#) + -----------------------------------------
-            #(#) + Cleaning up user and access rights.
             user_info = mconfig.get('uid',{})
             CLName = mconfig.get('client',{}).get('name')
             d = mconfig.get('client',{}).get('clienthome')
-            directory = d + "/" + CLName
+            dirsub = re.sub(r'/$', '', d)
+            #directory = d + "/" + CLName
+            directory = dirsub + "/" + CLName
+
+            #(#) + -----------------------------------------
+            #(#) + Creating a CSV file based up on
+            #(#) + ping.xml and all tcp.xml
+            #(#) +
+            print (f"XML files: {xmlList}")
+            CSVfile = directory + "/" + strftime("%Y%m%d") +"." +CLName +".csv"
+            generator = NmapCSVGenerator(xmlList)
+            generator.generate_csv(CSVfile)
+
+            #(#) + -----------------------------------------
+            #(#) + Cleaning up user and access rights.
+
             print (f" SetPermission with thisinfo : {mconfig.get('uid',{})}")
             print (f" SetPermission with thisinfo : {directory}")
             permission_setter = SetPermission(user_info, directory, logger)
             permission_setter.set_permissions()
 
-            print (f"XML files: {xmlList}")
         except SystemExit as e:
             logger.warning(f"Directory management failed with exit code: {e.code}")
             sys.exit()
