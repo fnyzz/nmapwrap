@@ -22,8 +22,8 @@ $ sudo python3 ./nmapwrap.py  --config config/myclient.yaml
 $ python -m venv ~/venv 
 
 # Download the repo from githug: 
-$ 
 $ git clone https://github.com/fnyzz/nmapwrap.git 
+$ cd ~/nmapwrap 
 
 # Install nmap online:
 $ apt-get install nmap
@@ -33,12 +33,17 @@ $ pip3 install -r requirements.txt
 
 # initiate the virtual python environment: 
 $ source ~/venv/bin/activate
-$ cd ~/nmapwrap 
-$ sudo python3 ./nmapwrap.py --config config/MyNetwork.yaml 
 
 # Run nmapwrap.py like this: 
-$ sudo ~/
+$ sudo python3 ./nmapwrap.py --config config/MyNetwork.yaml 
+
 # That's all is needed to get started
 ```
+
+**The config.yaml file**  
+This file lists: 
+-where Nmap is installed 
+-where you want the resulting Nmap data stoed 
+-username and file persmission 
 
 
