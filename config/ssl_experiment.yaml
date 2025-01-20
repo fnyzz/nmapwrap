@@ -6,7 +6,7 @@
 #@(#) are governed by the terms and conditions of the
 #@(#) fnyxzz lisence ("LICENSE.TXT")
 #@(#) ----------------------------------------------------------------
-#@(#) Name          :       TestClient.yaml
+#@(#) Name          :       ssl_experiment.yaml
 #@(#) Author        :       Ketil Heggtveit
 #@(#) ----------------------------------------------------------------
 #@(#) Description   :       Configuration file for the client 
@@ -17,9 +17,9 @@
 #  +  Client information 
 #  +  ---------------------------------------------------------------- 
 client:
-  name: experiment
+  name: ssl_experiment
   clienthome : /opt/nmapwrap/data/
-  clientip: 195.88.55.16 18.239.183.54 104.26.11.132 151.101.195.5 
+  clientip: 192.168.204.1/24 192.168.233.1/24
 
 #  +  ---------------------------------------------------------------- 
 #  +  nmap discover settings 
@@ -55,7 +55,7 @@ nmap_discoverycfg:
 #  +  nmap Normal scan 
 #  +  we scan the top 4000 ports 
 #  +  ----------------------------------------------------------------
-nmap_normal:
+nmap_ssl:
   order: 2
   scan-type: normal
   suffix: tcp

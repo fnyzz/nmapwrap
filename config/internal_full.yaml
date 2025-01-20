@@ -6,7 +6,7 @@
 #@(#) are governed by the terms and conditions of the
 #@(#) fnyxzz lisence ("LICENSE.TXT")
 #@(#) ----------------------------------------------------------------
-#@(#) Name          :       TestClient.yaml
+#@(#) Name          :       internal_full.yaml
 #@(#) Author        :       Ketil Heggtveit
 #@(#) ----------------------------------------------------------------
 #@(#) Description   :       Configuration file for the client 
@@ -17,7 +17,7 @@
 #  +  Client information 
 #  +  ---------------------------------------------------------------- 
 client:
-  name: FullerLN
+  name: internal_full
   clienthome : /opt/nmapwrap/data/
   clientip: 10.0.0.0/24 
 
