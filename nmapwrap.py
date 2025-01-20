@@ -85,7 +85,7 @@ def main (argv):
         sys.exit(99)
 
     if not Validator(nmapwrapConfig).is_valid_filedir():
-        print (f" {now} Illegal charachter in input filename " )
+        print (f" {now} Illegal charachter in input {nmapwrapConfig} filename " )
         sys.exit(99)
 
     try:

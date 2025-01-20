@@ -60,7 +60,7 @@ nmap_normal:
   scan-type: normal
   suffix: tcp
   genonlinehosts: True
-  scanflag: -sS -n 
+  scanflag: -sV -sC 
   max-hostgroup: 150
   max-retries: 4
   min-rtt-timeout: 100ms

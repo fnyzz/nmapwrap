@@ -1,45 +1,96 @@
+#@(#)________________________________________________________________
+#@(#)
+#@(#) Copyright(C) 2025 fnyxzz
+#@(#) All rights reserved.
+#@(#)
+#@(#) Use and distribution of this software and its source code
+#@(#) are governed by the terms and conditions of the
+#@(#) fnyxzz lisence ("LICENSE.TXT")
+#@(#) ----------------------------------------------------------------
+#@(#) Name      :       NmapCSVGenerator.py
+#@(#) ----------------------------------------------------------------
+#@(#)              $Author: Ketil $
+#@(#)              Purpose: Generates CSV file from NMAP xml files.
+#@(#)     Invoked by:  Ketil
+#@(#) ----------------------------------------------------------------
+
 import csv
 from netaddr import IPAddress
 from libnmap.parser import NmapParser
 
+#@(#) ----------------------------------------------------------------
+#@(@) Class name: NmapCSVGenerator
+#@(#) input: a nmap file on XML format
+#@(#) return: a file on csv format
+#@(#) What:  Reads two files, a ping xml file and a tcp xml file.
+#@(#)
 class NmapCSVGenerator:
-    def __init__(self, xmllist):
-        """
-        Initialize the generator with a list of XML files.
-        :param xmllist: List of XML files (ping and tcp files).
-        """
+    def __init__(self, xmllist,logger=None):
         self.xmllist = xmllist
         self.ping_file = None
         self.tcp_files = []
         self._separate_files()
+        self.logger = logger or self._setup_default_logger()
 
+
+    #@(#) ----------------------------------------------------------------
+    #@(@) Function: _setup_default_logger
+    #@(#) input: self
+    #@(#) What:  Sets up a default logger if none is provided.
+    #@(#) return: Configured logger instance.
+    #@(#)
+    def _setup_default_logger(self):
+        logger = logging.getLogger("DirectoryManager")
+        if not logger.handlers:
+            logger.setLevel(logging.DEBUG)
+            handler = logging.StreamHandler()
+            formatter = logging.Formatter(
+                '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+            )
+            handler.setFormatter(formatter)
+            logger.addHandler(handler)
+
+    #@(#) ----------------------------------------------------------------
+    #@(@) Function: _separate_files
+    #@(#) input: reference to self
+    #@(#) return: populates the ping_file and tcp_files variable
+    #@(#) What:  You can add 1 ping.xml file and multiple tcp.xml files
+    #@(#)        and this function will seperate them into two seperate
+    #@(#)        variables.
+    #@(#)
     def _separate_files(self):
-        """
-        Separate ping and tcp files from the input list.
-        Assumes one ping file and multiple tcp files.
-        """
         for file in self.xmllist:
             if file.endswith("ping.xml"):
                 self.ping_file = file
             elif file.endswith("tcp.xml"):
                 self.tcp_files.append(file)
 
+
+    #@(#) ----------------------------------------------------------------
+    #@(@) Function: _combine_tcp_files
+    #@(#) input: reference to self
+    #@(#) return: object containing all data from all tcp.xml files
+    #@(#) What:
+    #@(#)
     def _combine_tcp_files(self):
-        """
-        Combine all TCP XML data into a single list of hosts.
-        :return: Combined list of hosts from all TCP files.
-        """
         combined_hosts = []
         for tcp_file in self.tcp_files:
             parsed_data = NmapParser.parse_fromfile(tcp_file)
             combined_hosts.extend(parsed_data.hosts)
         return combined_hosts
 
+    #@(#) ----------------------------------------------------------------
+    #@(@) Function: generate_csv
+    #@(#) input: reference to self
+    #@(#) return: writes to the output_filename
+    #@(#) What:   Creates a csv file over all scanned IP
+    #@(#) lists each IP and all open/closed/filtered ports
+    #@(#) list if hosts respons to 'advanced' ping
+    #@(#) code 1 - recieved TCP/ACK ( open )
+    #@(#) code 2 - Recieved FNI ACK (Closed)
+    #@(#) code 3 - No response (filtered)
+    #@(#)
     def generate_csv(self, output_filename):
-        """
-        Generate a CSV file from the combined XML data.
-        :param output_filename: Name of the output CSV file.
-        """
         if not self.ping_file or not self.tcp_files:
             raise ValueError("Both ping and tcp XML files are required.")
 
@@ -90,9 +141,9 @@ class NmapCSVGenerator:
 
 # Example usage
 if __name__ == "__main__":
-    xmllist = ["/opt/nmapwrap/data/FullerLN/20250116T130220_discovery_FullerLN.ping.xml",
-               "/opt/nmapwrap/data/FullerLN/20250116T130220_normal_FullerLN.tcp.xml",
-               "/opt/nmapwrap/data/FullerLN/20250116T130220_full_FullerLN.tcp.xml"
+    xmllist = ["20250116T130220_discovery_client1.ping.xml",
+               "250116T130220_normal_client1.tcp.xml",
+               "20250116T130220_full_client1.tcp.xml"
                ]
     generator = NmapCSVGenerator(xmllist)
     generator.generate_csv("output.csv")

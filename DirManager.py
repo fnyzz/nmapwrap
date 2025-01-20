@@ -17,13 +17,6 @@ class DirManager:
         self.logger = logger or self._setup_default_logger()
 
     #@(#) ----------------------------------------------------------------
-    #@(@) Function:
-    #@(#) input:
-    #@(#) return:
-    #@(#) What:
-    #@(#)
-
-    #@(#) ----------------------------------------------------------------
     #@(@) Function: _setup_default_logger
     #@(#) input: self
     #@(#) What:  Sets up a default logger if none is provided.
@@ -61,7 +54,7 @@ class DirManager:
                 self.logger.error(f"Invalid directory: {path}")
                 invalid_directories.append(path)
             else:
-                self.logger.debug(f"Validated installation directory: {path}")
+                self.logger.debug(f"Validated installation directory:{key}- {path}")
 
         # Validate client directories
         client_config = self.config.get('client', {})
@@ -138,11 +131,11 @@ class DirManager:
         return failed_directories
 
     #@(#) ----------------------------------------------------------------
-    #@(@) Function:
-    #@(#) input:
-    #@(#) return:
-    #@(#) What:
-    #@(#)
+    #@(@) Function: set_user_and_permissions
+    #@(#) input: self
+    #@(#) return: True/False
+    #@(#) What:   Setting the username and password on created directories.
+    #@(#)         Values found in the merged python dictionary.
     def set_user_and_permissions(self):
         """
         Set ownership and permissions for the directories based on the dictionary.

@@ -21,19 +21,19 @@ import re
 #@(@) Class name: Validator
 #@(#) input: a file
 #@(#) return:
-#@(#) What:  Initializes the LinuxPathValidator with the string to validate.
+#@(#) What:  Initializes the Validator with the string to validate.
 #@(#)        :param path: The string to validate as a Linux filename or path.
 class Validator:
     #@(#)
     def __init__(self, path: str):
         self.path = path
 
-#@(#) ----------------------------------------------------------------
-#@(@) Function: is_valid
-#@(#) input: reference to self
-#@(#) return: true/false
-#@(#) What:  Validates the string as a valid Linux filename or path.
-#@(#)        :return: True if the string is valid, False otherwise.
+    #@(#) ----------------------------------------------------------------
+    #@(@) Function: is_valid
+    #@(#) input: reference to self
+    #@(#) return: true/false
+    #@(#) What:  Validates the string as a valid Linux filename or path.
+    #@(#)        :return: True if the string is valid, False otherwise.
     def is_valid_filedir(self) -> bool:
         #  +  -----------------------------------------------------------
         #  +  Make sure the string is not empty
@@ -76,7 +76,7 @@ if __name__ == "__main__":
         "/home/user/" + "a" * 300,  # Valid component too long
     ]
     for path in test_paths:
-        validator = LinuxPathValidator(path)
-        result = validator.is_valid()
+        validator = Validator(path)
+        result = validator.is_valid_filedir()
         print(f"'{path}' -> {result}")
 

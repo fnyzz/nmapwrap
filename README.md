@@ -3,9 +3,10 @@
 This python program targets the automation of running nmap in a production environment. It takes a configuration file on the YAML format and run the nmap with this configuration. You may have different configuration files for different netsegments, clients etc. There is one standard config.yaml file which the reference to where nmap is installed, owner of the files etc. 
 
 There are differnet reason you want to run nmap using this wrapper. 
-- Audit trail of all nmap scans 
-- Logging of all scans in one place 
 - Repetable Nmap scan with the same parameter 
+- Logging of all scans in one place 
+- Controll Nmap using configuration files 
+- Audit trail of all nmap scans 
 - History of nmap result 
 - 
 The script uses the nmap binaries which is a pre requisite for this nmapwrapper to work. 
@@ -40,10 +41,12 @@ $ sudo python3 ./nmapwrap.py --config config/MyNetwork.yaml
 # That's all is needed to get started
 ```
 
+
 **The config.yaml file**  
 This file lists: 
 -where Nmap is installed 
 *where you want the resulting Nmap data stoed 
 +username and file persmission 
+
 
 

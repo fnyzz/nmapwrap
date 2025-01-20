@@ -1,3 +1,20 @@
+#@(#)________________________________________________________________
+#@(#)
+#@(#) Copyright(C) 2025 fnyxzz
+#@(#) All rights reserved.
+#@(#)
+#@(#) Use and distribution of this software and its source code
+#@(#) are governed by the terms and conditions of the
+#@(#) fnyxzz lisence ("LICENSE.TXT")
+#@(#) ----------------------------------------------------------------
+#@(#) Name      :       NmapRunner
+#@(#) ----------------------------------------------------------------
+#@(#)           Purpose: Run the nmap command in a sub process
+#@(#)           Nmap command is build from the dict
+#@(#)           Author:  Ketil
+#@(#)           year: 2025
+#@(#)
+#@(#) ----------------------------------------------------------------
 import subprocess
 import sys
 from time import strftime
@@ -5,15 +22,18 @@ from datetime import datetime
 import time
 from pathlib import Path
 
+#@(#) ----------------------------------------------------------------
+#@(@) Class name: NmapRunner
+#@(#) input: a dict, a full path to Nmap, a dict for nmap config, a UUID, a logger
+#@(#) return: self
+#@(#)        Initialize the class with a configuration dictionary and an optional logger.
+#@(#)         client_data: dict with client information (e.g., name, logdir, IP addresses)
+#@(#)         nmap_path: Full path to the nmap program (e.g., /usr/bin/nmap)
+#@(#)         nmap_config: dict with nmap configuration options
+#@(#)
 class NmapRunner:
     def __init__(self, client_data, nmap_path, nmap_config, sessionID, logger=None):
-        """
-        Initialize the NmapRunner class.
 
-        :param client_data: dict with client information (e.g., name, logdir, IP addresses)
-        :param nmap_path: Full path to the nmap program (e.g., /usr/bin/nmap)
-        :param nmap_config: dict with nmap configuration options
-        """
         self.client_data = client_data
         self.nmap_path = Path(nmap_path)
         self.nmap_config = nmap_config
@@ -22,6 +42,12 @@ class NmapRunner:
         self._validate_inputs()
         #self._debug_initialization()
 
+    #@(#) ----------------------------------------------------------------
+    #@(@) Function: _validate_inpits
+    #@(#) input: self
+    #@(#) What:  input validation ( a start )
+    #@(#) return: Configured logger instance.
+    #@(#)
     def _validate_inputs(self):
         """Validate the provided inputs."""
         if not self.nmap_path.is_file():
@@ -37,12 +63,24 @@ class NmapRunner:
         if not isinstance(self.nmap_config, dict):
             raise ValueError("nmap_config must be a dictionary.")
 
+    #@(#) ----------------------------------------------------------------
+    #@(@) Function: _debug_initialization
+    #@(#) input: self
+    #@(#) What:  Print input if debug
+    #@(#) return: none
+    #@(#)
     def _debug_initialization(self):
-        print(f"Initialized NmapRunner with:")
-        print(f"  client_data: {self.client_data}")
-        print(f"  nmap_path: {self.nmap_path}")
-        print(f"  nmap_config: {self.nmap_config}")
+        self.logger.debug(f"Initialized NmapRunner with:")
+        self.logger.debug(f"  client_data: {self.client_data}")
+        self.logger.debug(f"  nmap_path: {self.nmap_path}")
+        self.logger.debug(f"  nmap_config: {self.nmap_config}")
 
+    #@(#) ----------------------------------------------------------------
+    #@(@) Function: _build_command
+    #@(#) input: self
+    #@(#) What:  Building the nmap command.
+    #@(#) return: a string of Nmap options, a string of scan-type
+    #@(#)
     def _build_command(self):
         """Build the nmap command using the configuration dictionary."""
         command = [str(self.nmap_path)]
@@ -71,8 +109,13 @@ class NmapRunner:
 
         return command, scantype
 
+    #@(#) ----------------------------------------------------------------
+    #@(@) Function: run
+    #@(#) input: self
+    #@(#) What:  Runs the nmap command with the command line option
+    #@(#) return:2 files, online filename and nmap result filename
+    #@(#)
     def run(self):
-        """Run the nmap command as a subprocess and log output."""
         #(#)  + ---------------------------------------------------------
         #(#)  +  housekeeping varaibles
         now = datetime.now()
@@ -165,17 +208,7 @@ class NmapRunner:
 
         return onlineFile, FullPathReport
 
-# Example Usage:
-# client_data = {
-#     "name": "Client1",
-#     "clienthome": "/path/to/logs",
-#     "clientip": ["192.168.1.1", "192.168.1.2"]
-# }
-# nmap_path = "/usr/bin/nmap"
-# nmap_config = {
-#     "sS": None,  # Syn scan
-#     "p": "80,443",  # Ports
-#     "oN": "-"  # Normal output
-# }
-# runner = NmapRunner(client_data, nmap_path, nmap_config)
-# runner.run()
+
+# Example usage
+if __name__ == "__main__":
+    print (f"cannot run by it selves! ")

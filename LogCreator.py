@@ -1,8 +1,29 @@
+#@(#)________________________________________________________________
+#@(#)
+#@(#) Copyright(C) 2025 fnyxzz
+#@(#) All rights reserved.
+#@(#)
+#@(#) Use and distribution of this software and its source code
+#@(#) are governed by the terms and conditions of the
+#@(#) fnyxzz lisence ("LICENSE.TXT")
+#@(#) ----------------------------------------------------------------
+#@(#) Name      :       LogCreator.py
+#@(#) ----------------------------------------------------------------
+#@(#)              $Author: Ketil $
+#@(#)              Purpose: Creates a log handler for logging of events
+#@(#)     Invoked by:  Ketil
+#@(#) ----------------------------------------------------------------
 import os
 import logging
 import sys
 import uuid
-
+#@(#) ----------------------------------------------------------------
+#@(@) Class name: LoggerCreator
+#@(#) input: a log directory, a filename, an UUID string
+#@(#)        a bool value for quiet
+#@(#) return: a logger handler
+#@(#) What:  Initializes the the logger for logging of events.
+#@(#)
 class LoggerCreator:
     def __init__(self, log_directory, log_file, log_level, uuid_string, quiet=True):
         self.log_directory = log_directory
@@ -18,6 +39,12 @@ class LoggerCreator:
         # Set log file path
         self.log_file_path = os.path.join(self.log_directory, self.log_file)
 
+    #@(#) ----------------------------------------------------------------
+    #@(@) Function: get_logger
+    #@(#) input: reference to self and a prog.name
+    #@(#) return: a logger handler
+    #@(#) What:  Creates a handler for logging to a file
+    #@(#)
     def get_logger(self, program_name):
         # Create logger
         logger = logging.getLogger(program_name)
