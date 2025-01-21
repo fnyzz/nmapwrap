@@ -37,6 +37,8 @@ Then there is the input option --config config/TestClient.yaml
 The yaml config has 3 section: 
 1. Name of the scan, where to store the data and a list of IP to scan. 
 2. The Nmap discovery section. You may add more than one section where you do 
+3. The Nmap section where you spesify what ports to scan etc. 
+
 
 ```sh
 $ sudo python3 ./nmapwrap.py  --config config/myclient.yaml 
