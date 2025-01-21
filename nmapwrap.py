@@ -4,9 +4,9 @@
 #@(#) Copyright(C) 2025 fnyxzz
 #@(#) All rights reserved.
 #@(#)
-#@(#) Use and distribution of this software and its source code
-#@(#) are governed by the terms and conditions of the
-#@(#) fnyxzz lisence ("LICENSE.TXT")
+#@(#)  MIT License
+#@(#)  Copyright (c) [YEAR] [YOUR NAME OR ORGANIZATION]
+#@(#)  See LICENSE file for full license text.
 #@(#) ----------------------------------------------------------------
 #@(#) Name      :       nmapwrap
 #@(#) ----------------------------------------------------------------

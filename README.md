@@ -215,4 +215,7 @@ The table in the CSV file provides an overview of the available ports on the ser
 
 The "Default" column shows the response for all other scanned ports that are not included in the table. Blank fields in the table have the same status as the "Default" column.
 
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
 
