@@ -1,5 +1,5 @@
 # ![Alt text](images/Viking_Helmet.png) nmapwrapper 
-<img src="images/Viking_Helmet.png" alt="Nmapwrap.py" style="width:10%; height:auto;">
+<img src="images/Viking_Helmet.png" alt="Nmapwrap.py" style="width:5%; height:auto;">
 
 
 This python program targets the automation of running nmap in a production environment where you are running the same nmap on schdule. Nmapwrap.py takes a configuration file on the YAML format and run the nmap with this configuration. First it runs a Nmap discovery scan based upon icmp ping and a list of port supplied by you. Online hosts are written to a file onlinehosts.TestClient.txt which the is used in a more thurow Nmap TCP scan. 
