@@ -15,8 +15,8 @@
 #@(#)           year: 2025
 #@(#)
 #@(#) ----------------------------------------------------------------
-
-from ConfigReader import ConfigReader
+#(#) + ---------------------------------------------------------------
+#(#) + standard python3 libraries
 import optparse
 import os
 import sys
@@ -25,6 +25,11 @@ import time
 import re
 from time import strftime
 from datetime import datetime
+
+#(#) + ---------------------------------------------------------------
+#(#) + project files
+sys.path.append("./lib")
+from ConfigReader import ConfigReader
 from Validator import Validator
 from LogCreator import LoggerCreator
 from DirManager import DirManager
