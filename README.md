@@ -1,15 +1,20 @@
 # <img src="images/Viking_Helmet.png" alt="Nmapwrap.py" style="width:5%; height:auto;"> Nmapwrap
 
 
-This python program targets the automation of running nmap in a production environment where you are running the same nmap on schdule. Nmapwrap.py takes a configuration file on the YAML format and run the nmap with this configuration. First it runs a Nmap discovery scan based upon icmp ping and a list of port supplied by you. Online hosts are written to a file onlinehosts.TestClient.txt which the is used in a more thurow Nmap TCP scan. 
+This python program targets the automation of running nmap in a production environment where you are 
+running the same nmap on schdule towards several different networks. 
+Nmapwrap.py takes a configuration file on the YAML format and run  the nmap with this configuration. 
+First it runs a Nmap discovery scan based upon icmp ping and a list of port supplied by you. 
+Online hosts are written to a file onlinehosts.TestClient.txt which  the is used in next scan which is 
+TCP scan towards online hosts. 
 
 
 You may have different configuration files for different netsegments, clients etc. There is one standard config.yaml file which the reference to where nmap is installed, owner of the files etc. 
 ## 🌟 Features
-- Repetable Nmap scan with the same parameter 
+- Repetable Nmap scan with the same parameter  easily configured in yaml config files 
 - Control Nmap parameter with yaml files 
 - Audit trail of all nmap scans 
-- Keep all 
+- Name nmap result file on a logical basis
 - Run multiple Nmap scan without loosing logging
 
 ## ⚠️  Security 
@@ -128,4 +133,14 @@ nmap_normal:
   max-rate: 15000
   max-rtt-timeout: 50ms
   reports: -oA
+
+```
+
+
+
+# <img src="images/Viking_boat_2x.png" alt="Nmapwrap Flow" style="width:5%; height:auto;"> Nmapwrap program flow 
+
+This 
+
+
 
