@@ -203,13 +203,13 @@ nmap_Full:
 
 The table in the CSV file provides an overview of the available ports on the servers involved in the test. The explanation of the table is as follows:
 
-- 1. The port is open and responds with a SYN-ACK to our request.
-- 2. The port is closed on the machine and responds with a RESET-ACK to our request.
-- 3. The port does not respond, likely because the firewall is dropping our request.
-- 7. The port responds to UDP requests.
-- 8. The port does not respond to UDP requests.
-- 11. The machine responds to ping requests.
-- 12. The machine does not respond to ping requests.
+- 1 The port is open and responds with a SYN-ACK to our request.
+- 2 The port is closed on the machine and responds with a RESET-ACK to our request.
+- 3 The port does not respond, likely because the firewall is dropping our request.
+- 7 The port responds to UDP requests.
+- 8 The port does not respond to UDP requests.
+- 11 The machine responds to ping requests.
+- 12 The machine does not respond to ping requests.
 
 The "Default" column shows the response for all other scanned ports that are not included in the table. Blank fields in the table have the same status as the "Default" column.
 
