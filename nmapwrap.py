@@ -50,8 +50,8 @@ epilog="""
 
 examples of usage:
 
-sudo ./main.py --config myclient.yaml
-sudo ./main.py --config myclient.yaml --quiet
+sudo ./nmapwrap.py --config config/myclient.yaml
+sudo ./nmapwrap.py --config config/myclient.yaml --quiet
 
 
 """
