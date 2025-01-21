@@ -59,7 +59,7 @@ nmap_normal:
   order: 2
   scan-type: normal
   suffix: tcp
-  scanflag: -sS -n -PE
+  scanflag: -sS -n 
   max-hostgroup: 150
   max-retries: 4
   min-rtt-timeout: 100ms

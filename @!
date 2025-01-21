@@ -138,22 +138,7 @@ nmap_normal:
 
 
 # <img src="images/Viking_hammer.png" alt="User configuration yaml file" style="width:5%; height:auto;">Creating your own yaml file
-You should have one configuration file for each logical net-segment you want to scan or for a spesific service. What's important is that you have at least two section. One where you do nmap discovery and one for the TCP scan. You can have more than one TCP scan. When you are scanning networks which are slow and you need to get a prelimmarary result, you could run a top-ports 1024, before you run the full TCP scan with 65535 ports.  
 
-# This is what you have to change: 
-
-Change the name stanse to the what you want to call this configuration. Choose where to store the files and enter your IP list 
-```yaml
-client:
-   name: TestClient
-   clienthome : /opt/nmapwrap/data/
-   clientip: 10.0.0.0/24
-```
-
-Keep this part of the confiuration file untouched: 
-```yaml
-
-```
 
 # <img src="images/Viking_boat_2x.png" alt="Nmapwrap Flow" style="width:5%; height:auto;"> Nmapwrap program flow 
 
