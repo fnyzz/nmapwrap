@@ -13,10 +13,10 @@
 #@(#)           Purpose: Read the README.md file for details.
 #@(#)           Author:  Ketil
 #@(#)           year: 2025
-#@(#)
 #@(#) ----------------------------------------------------------------
 #(#) + ---------------------------------------------------------------
 #(#) + standard python3 libraries
+#(#) +
 import optparse
 import os
 import sys
@@ -28,6 +28,7 @@ from datetime import datetime
 
 #(#) + ---------------------------------------------------------------
 #(#) + project files
+#(#) +
 sys.path.append("./lib")
 from ConfigReader import ConfigReader
 from Validator import Validator
@@ -109,6 +110,7 @@ def main (argv):
 
         #(@) +  -----------------------------------------------------------
         #(@) +  Getting the log dir and filename from dict
+        #(#) +  This is the mail application root
         log_dir = mconfig['logging']['dir']
         log_file= mconfig['logging']['file']
         log_level=mconfig['logging']['level']
@@ -214,6 +216,8 @@ def main (argv):
 
             #(#) + -----------------------------------------
             #(#) + Cleaning up user and access rights.
+            #(#) + The SetPermission class was created to avoid running DirManage class twice.
+            #(#) + Potention to be fixed in future versions
             logger.debug (f" SetPermission with thisinfo : {mconfig.get('uid',{})}")
             logger.debug (f" SetPermission with thisinfo : {directory}")
             permission_setter = SetPermission(user_info, directory, logger)
