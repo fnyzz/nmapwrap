@@ -11,6 +11,7 @@ There are differnet reason you want to run nmap using this wrapper.
 - 
 The script uses the nmap binaries which is a pre requisite for this nmapwrapper to work. 
 
+## 🚀 Quick Start
 
 # example run 
 ```sh
