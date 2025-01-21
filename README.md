@@ -1,10 +1,7 @@
-# nmapwrapper 
+# ![Alt text](images/Viking_Helmet.png) nmapwrapper 
 
 This python program targets the automation of running nmap in a production environment where you are running the same nmap on schdule. Nmapwrap.py takes a configuration file on the YAML format and run the nmap with this configuration. First it runs a Nmap discovery scan based upon icmp ping and a list of port supplied by you. Online hosts are written to a file onlinehosts.TestClient.txt which the is used in a more thurow Nmap TCP scan. 
 
-## ⚠️  Security 
-Program runs as sudo (root) or in root's crontab. 
-Running Nmap with the parameter -sS requiers root priveleges which is why I am skipping some input validation and how we run Python's popen sub process. 
 
 You may have different configuration files for different netsegments, clients etc. There is one standard config.yaml file which the reference to where nmap is installed, owner of the files etc. 
 ## 🌟 Features
@@ -13,7 +10,10 @@ You may have different configuration files for different netsegments, clients et
 - Audit trail of all nmap scans 
 - Keep all 
 - Run multiple Nmap scan without loosing logging
-- 
+
+## ⚠️  Security 
+Program runs as sudo (root). 
+Running Nmap with the parameter -sS requiers root priveleges which is why I am skipping some input validation and why we run Python's popen sub process. 
 
 The basic yaml config has 3 section: 
 1. Name of the scan, where to store the data and a list of IP to scan. 
