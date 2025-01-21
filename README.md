@@ -21,14 +21,17 @@ You may have different configuration files for different netsegments, clients et
 Program runs as sudo (root). 
 Running Nmap with the parameter -sS requiers root priveleges which is why I am skipping some input validation and why we run Python's popen sub process. 
 
-The basic yaml config has 3 section: 
+## 🚀 Quick Start 
+There are two yaml config files. One called config.yaml where you 
+- spesify the user name who will own the nmap files 
+- list the full path to where nmap is installed 
+- where you want the nmap data to be stored. 
+
+Then there is the input option --config config/TestClient.yaml 
+The yaml config has 3 section: 
 1. Name of the scan, where to store the data and a list of IP to scan. 
-2. The discovery section 
-3. The Nmap scan using hosts from the discovery section. 
+2. The Nmap discovery section. You may add more than one section where you do 
 
-The script uses the nmap binaries which is a pre requisite for this nmapwrapper to work. 
-
-## 🚀 Quick Start, example run 
 ```sh
 $ sudo python3 ./nmapwrap.py  --config config/myclient.yaml 
 ```
