@@ -54,12 +54,15 @@ $ source ~/venv/bin/activate
 # Run nmapwrap.py like this: 
 $ sudo python3 ./nmapwrap.py --config config/MyNetwork.yaml 
 
-# That's all is needed to get started
+# That's all is needed to get started. REMEMBER to checkout how to setup the MyNetwork.yaml files down below. 
 ```
 
 ## 📊 Usage
+Before you run the program, you should change the username in the config/config.yaml file to your own user or the user you want to be the owner of the resulting nmap files. 
+Then create your own yaml files spesifying what you want to scan, nmap parameters etc. You may copy one the example yaml files provided in the project. 
 
-These are the command line option for you 
+There is only one option for interactive run, which is where your yaml config file is. If you do not want any output to the console, use --quiet. Use this option when running in crontab. 
+
 ```bash 
 # python3 ./nmapwrap.py --help
 
@@ -80,15 +83,7 @@ sudo ./nmapwrap.py --config config/myclient.yaml --quiet
 ```
 
 
-**The config.yaml file**  
-This file lists: 
--where Nmap is installed 
-*where you want the resulting Nmap data stoed 
-+username and file persmission 
-
-
-
-Example configuration:
+** Example configuration ** 
 
 ```yaml
 client:
@@ -140,9 +135,9 @@ nmap_normal:
 # <img src="images/Viking_hammer.png" alt="User configuration yaml file" style="width:5%; height:auto;">Creating your own yaml file
 You should have one configuration file for each logical net-segment you want to scan or for a spesific service. What's important is that you have at least two section. One where you do nmap discovery and one for the TCP scan. You can have more than one TCP scan. When you are scanning networks which are slow and you need to get a prelimmarary result, you could run a top-ports 1024, before you run the full TCP scan with 65535 ports.  
 
-# This is what you have to change: 
+# This is what you have to change in your own yaml files:  
 
-Change the name stanse to the what you want to call this configuration. Choose where to store the files and enter your IP list 
+Change the name stansa to the what you want to call this configuration. Choose where to store the files and enter your IP list 
 ```yaml
 client:
    name: TestClient
@@ -150,10 +145,30 @@ client:
    clientip: 10.0.0.0/24
 ```
 
-Keep this part of the confiuration file untouched: 
-```yaml
+You can keep the nmap_discovery as is. If you want to do less ports for TCP discovery, go ahead and change the port list. 
 
+The next section, 
+
+```yaml
+nmap_normal:
+  order: 2
+  scan-type: normal
+  suffix: tcp
+  scanflag: -sS -n
+  max-hostgroup: 150
+  max-retries: 4
+  min-rtt-timeout: 100ms
+  initial-rtt-timeout: 500ms
+  scan-delay: 2ms
+  max-scan-delay: 20ms
+  min-rate: 450
+  max-rate: 15000
+  max-rtt-timeout: 50ms
+  reports: -oA
+  top-ports: 500
 ```
+
+
 
 # <img src="images/Viking_boat_2x.png" alt="Nmapwrap Flow" style="width:5%; height:auto;"> Nmapwrap program flow 
 

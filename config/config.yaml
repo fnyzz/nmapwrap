@@ -36,7 +36,7 @@ installation:
 #  +  userid and access rights for the nmap data 
 #  +  ---------------------------------------------------------------- 
 uid: 
-  username: ketilheggtveit
+  username: myuser
   accessrights: "0o755"
 
 #  +  ---------------------------------------------------------------- 
