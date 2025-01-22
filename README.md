@@ -64,6 +64,9 @@ $  cp examples/ssl_experiment.yaml config/
 # Create a virtual environment where you install Python: 
 $ python -m venv ~/venv 
 
+# initiate the virtual python environment: 
+$ source ~/venv/bin/activate
+
 # Download the repo from githug: 
 $ git clone https://github.com/fnyzz/nmapwrap.git 
 $ cd ~/nmapwrap 
@@ -74,8 +77,6 @@ $ apt-get install nmap
 # install all dependensis listen in requirements
 $ pip3 install -r requirements.txt
 
-# initiate the virtual python environment: 
-$ source ~/venv/bin/activate
 
 # Run nmapwrap.py like this: 
 $ sudo python3 ./nmapwrap.py --config config/MyNetwork.yaml 
