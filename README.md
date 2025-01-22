@@ -219,7 +219,6 @@ nmap_Full:
 
 # <img src="images/Viking_hammer.png" alt="User configuration yaml file" style="width:5%; height:auto;">CSV file explenation 
 
-
 The table in the CSV file provides an overview of the available ports on the servers involved in the test. The explanation of the table is as follows:
 
 - 1 The port is open and responds with a SYN-ACK to our request.
@@ -232,7 +231,7 @@ The table in the CSV file provides an overview of the available ports on the ser
 
 The "Default" column shows the response for all other scanned ports that are not included in the table. Blank fields in the table have the same status as the "Default" column.
 
-## License
 
+## License
 This project is licensed under the MIT License - see the [LICENSE](./LICENSE.txt) file for details.
 
