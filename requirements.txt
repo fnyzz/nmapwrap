@@ -3,3 +3,4 @@ pymsteams
 IPAddress
 netaddr
 python-libnmap
+PyYAML
