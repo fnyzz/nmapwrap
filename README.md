@@ -110,6 +110,25 @@ sudo ./nmapwrap.py --config config/myclient.yaml
 sudo ./nmapwrap.py --config config/myclient.yaml --quiet
 ```
 
+```bash 
+Crontab examples: 
+# * * * * * command to be executed
+# | | | | |
+# | | | | |
+# | | | | |
+# | | | | |_______________ Day of the Week (0 - 6)(Sunday to Saturday)
+# | | | |_______________ Month of the Year (1 - 12)
+# | | |_______________ Day of the Month (1 - 31)
+# | |_______________ Hour (0 - 23)
+# |_______________ Minute (0 - 59)
+#
+# run every Friday at 0300 => --quiet produces not terminal output 
+# 03 00 * * 5 /home/myuser/venv/bin/python /home/myuser/nmapwrap/nmapwrap.py --config /home/myuser/nmapwrap/config/ssl_experiment.yaml  --quiet
+# run the first of every month ay at 0300 =>  output is redirected to /dev/null 2>&1 
+# 03 00 * 1 * /home/myuser/venv/bin/python /home/myuser/nmapwrap/nmapwrap.py --config /home/myuser/nmapwrap/config/ssl_experiment.yaml >/dev/null 2>&1
+```
+It's safe to run quiet or pipe to /dev/null. Everything is logged in the logs. 
+
 
 ** Example configuration ** 
 
