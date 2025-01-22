@@ -9,8 +9,9 @@
 #@(#) ----------------------------------------------------------------
 #@(#) Name      :       Validator.py
 #@(#) ----------------------------------------------------------------
-#@(#)              $Author: Ketil $
-#@(#)              Purpose:
+#@(#) Author: Ketil $
+#@(#) Purpose: Parses the Nmap ping and writes hosts to
+#@(#)          onlinehosts.client.txt who is online
 #@(#)     Invoked by:  Ketil
 #@(#) ----------------------------------------------------------------
 

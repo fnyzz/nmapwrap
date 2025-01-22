@@ -220,7 +220,7 @@ def main (argv):
             #(#) +
             logger.debug(f"XML files: {xmlList}")
             CSVfile = directory + "/" + strftime("%Y%m%d") +"." +CLName +".csv"
-            generator = NmapCSVGenerator(xmlList)
+            generator = NmapCSVGenerator(xmlList, logger)
             generator.generate_csv(CSVfile)
 
             #(#) + -----------------------------------------
