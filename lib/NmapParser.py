@@ -24,7 +24,7 @@ import xml.etree.ElementTree as ET
 class NmapParser:
     def __init__(self, input_filename):
         self.input_filename = input_filename
-        print (f"input: {self.input_filename}")
+        #print (f"input: {self.input_filename}")
 
     #@(#) ----------------------------------------------------------------
     #@(@) Function: is_valid
@@ -54,7 +54,6 @@ class NmapParser:
         alive_hosts = self.get_alive_hosts()
         with open(output_filename, 'w') as f:
             for host in alive_hosts:
-                print(f"hosts {host}")
                 f.write(f"{host}\n")
 
 # Usage example
