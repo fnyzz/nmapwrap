@@ -13,7 +13,6 @@
 #@(#)           Purpose: Read the README.md file for details.
 #@(#)           Author:  Ketil
 #@(#)           year: 2025
-#@(#) ----------------------------------------------------------------
 #(#) + ---------------------------------------------------------------
 #(#) + standard python3 libraries
 #(#) +
@@ -27,7 +26,7 @@ from time import strftime
 from datetime import datetime
 
 #(#) + ---------------------------------------------------------------
-#(#) + project files
+#(#) + project files, located in ./lib directories.
 #(#) +
 sys.path.append("./lib")
 from ConfigReader import ConfigReader
@@ -41,7 +40,9 @@ from SetPermission import SetPermission
 from NmapParser import NmapParser
 from NmapCSVGenerator import NmapCSVGenerator
 
-
+#(#) + ---------------------------------------------------------------
+#(#) + We'll keep the config.yaml file in a config directory
+#(#) + to make sure it's not distributed in git.
 nmapwrapConfig = "config/config.yaml"
 
 #(@) + ----------------------------------------------
