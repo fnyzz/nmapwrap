@@ -49,17 +49,9 @@ $ sudo python3 ./nmapwrap.py  --config config/myclient.yaml
 
 **Installation**
 ```bash
-# Copy the examples/config.yaml to config directory
-$ cp examples/config.yaml config 
 
-# Edit this file. Spesify your nmap location and the username you want to be the owner of the 
-# resulting data 
-
-# Create your configuration file, there are examples in the examples dir. 
-# Copy to the config directory 
-$  cp examples/ssl_experiment.yaml config/
-
-# Edit this file to what you are scanning, name of file, etc. 
+# Install nmap unless it's already installed: 
+$ apt-get install nmap
 
 # Create a virtual environment where you install Python: 
 $ python -m venv ~/venv 
@@ -71,8 +63,17 @@ $ source ~/venv/bin/activate
 $ git clone https://github.com/fnyzz/nmapwrap.git 
 $ cd ~/nmapwrap 
 
-# Install nmap online:
-$ apt-get install nmap
+# Copy the examples/config.yaml to config directory
+$ cp examples/config.yaml config 
+
+# Edit this file. Spesify your nmap location and the username you want to be the owner of the 
+# resulting data 
+
+# Create your configuration file, there are examples in the examples dir. 
+# Copy to the config directory 
+$  cp examples/ssl_experiment.yaml config/
+
+# Edit this file to what you are scanning, name of file, etc. 
 
 # install all dependensis listen in requirements
 $ pip3 install -r requirements.txt
