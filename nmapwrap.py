@@ -78,6 +78,9 @@ program = os.path.basename(sys.argv[0] )
 #  +  exists
 if not os.path.isfile(nmapwrapConfig):
     print (f"{now} Error: Need the std yaml config file! {nmapwrapConfig}")
+    print (f"{now} Read the README.md file ")
+    print (f"{now} copy the example/config to config directory ")
+    print (f"{now} Make nessasary change for you environment")
     sys.exit(99)
 
 def main (argv):
