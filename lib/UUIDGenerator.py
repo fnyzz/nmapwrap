@@ -9,9 +9,9 @@
 #@(#) ----------------------------------------------------------------
 #@(#) Name      :       UUIDGenerator.py
 #@(#) ----------------------------------------------------------------
-#@(#)              $Author: Ketil $
-#@(#)              Purpose:
-#@(#)     Invoked by:  Ketil
+#@(#) Author: Ketil $
+#@(#) Purpose: Generate an UUID for unique id for each scan
+#@(#) Invoked by:  Ketil
 #@(#) ----------------------------------------------------------------
 
 

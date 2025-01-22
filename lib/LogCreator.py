@@ -9,9 +9,10 @@
 #@(#) ----------------------------------------------------------------
 #@(#) Name      :       LogCreator.py
 #@(#) ----------------------------------------------------------------
-#@(#)              $Author: Ketil $
-#@(#)              Purpose: Creates a log handler for logging of events
-#@(#)     Invoked by:  Ketil
+#@(#) $Author: Ketil $
+#@(#) Purpose: Creates a log handler for logging of events
+#@(#) Year   : 2025
+#@(#) Invoked by:  Ketil
 #@(#) ----------------------------------------------------------------
 import os
 import logging

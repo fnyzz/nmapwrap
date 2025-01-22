@@ -9,9 +9,9 @@
 #@(#) ----------------------------------------------------------------
 #@(#) Name      :       NmapCSVGenerator.py
 #@(#) ----------------------------------------------------------------
-#@(#)              $Author: Ketil $
-#@(#)              Purpose: Generates CSV file from NMAP xml files.
-#@(#)     Invoked by:  Ketil
+#@(#) Author: Ketil $
+#@(#) Purpose: Generates CSV file from NMAP xml files.
+#@(#) Invoked by:  Ketil
 #@(#) ----------------------------------------------------------------
 
 import csv
@@ -137,7 +137,7 @@ class NmapCSVGenerator:
                 row = [ip, pinghost.get(ip, ""), ep.get(ip, "")] + port_states
                 writer.writerow(row)
 
-        print(f"CSV file generated: {output_filename}")
+        self.logger.debug(f"CSV file generated: {output_filename}")
 
 # Example usage
 if __name__ == "__main__":

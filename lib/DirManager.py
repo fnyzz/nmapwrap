@@ -1,3 +1,20 @@
+#@(#)________________________________________________________________
+#@(#)
+#@(#) Copyright(C) 2025 fnyxzz
+#@(#) All rights reserved.
+#@(#)
+#@(#) Use and distribution of this software and its source code
+#@(#) are governed by the terms and conditions of the
+#@(#) fnyxzz lisence ("LICENSE.TXT")
+#@(#) ----------------------------------------------------------------
+#@(#) Name      :       DirManager.py
+#@(#) ----------------------------------------------------------------
+#@(#) Purpose:  Manage the environment needed to run nmapwrap
+#@(#) Author :  Ketil
+#@(#) year   :  2025
+#@(#)
+#@(#) ----------------------------------------------------------------
+
 import os
 import stat
 import pwd

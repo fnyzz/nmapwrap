@@ -9,10 +9,10 @@
 #@(#) ----------------------------------------------------------------
 #@(#) Name      :       NmapRunner
 #@(#) ----------------------------------------------------------------
-#@(#)           Purpose: Run the nmap command in a sub process
+#@(#) Purpose:  Run the nmap command in a sub process
 #@(#)           Nmap command is build from the dict
-#@(#)           Author:  Ketil
-#@(#)           year: 2025
+#@(#) Author :  Ketil
+#@(#) year   :  2025
 #@(#)
 #@(#) ----------------------------------------------------------------
 import subprocess

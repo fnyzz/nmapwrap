@@ -1,26 +1,42 @@
+#@(#)________________________________________________________________
+#@(#)
+#@(#) Copyright(C) 2025 fnyxzz
+#@(#) All rights reserved.
+#@(#)
+#@(#) Use and distribution of this software and its source code
+#@(#) are governed by the terms and conditions of the
+#@(#) fnyxzz lisence ("LICENSE.TXT")
+#@(#) ----------------------------------------------------------------
+#@(#) Name      :       SetPermission
+#@(#) ----------------------------------------------------------------
+#@(#) Purpose:  Validate user, set the permission
+#@(#) Author :  Ketil
+#@(#) year   :  2025
+#@(#)
+#@(#) ----------------------------------------------------------------
 import os
 import pwd
 import logging
 
+#@(#) ----------------------------------------------------------------
+#@(@) Class: SetPersmission
+#@(#) input: self
+#@(#) return: False
+#@(#) What: Initialize the PermissionManager class.
+#@(#)         :param config: Dictionary containing 'username' and 'accessrights'.
+#@(#)         :param directory: Directory on which to set permissions.
+#@(#)         :param logger: Logger instance for logging messages.
 class SetPermission:
     def __init__(self, config, directory, logger=None):
-        """
-        Initialize the PermissionManager class.
-
-        :param config: Dictionary containing 'username' and 'accessrights'.
-        :param directory: Directory on which to set permissions.
-        :param logger: Logger instance for logging messages.
-        """
         self.config = config
         self.directory = directory
         self.logger = logger or self._setup_default_logger()
-
+    #@(#) ----------------------------------------------------------------
+    #@(@) Function: _setup_default_logger
+    #@(#) input: self
+    #@(#) return: Configured logger instance.
+    #@(#) What: Set up a default logger if none is provided.
     def _setup_default_logger(self):
-        """
-        Set up a default logger if none is provided.
-
-        :return: Configured logger instance.
-        """
         logger = logging.getLogger("PermissionManager")
         if not logger.handlers:
             logger.setLevel(logging.DEBUG)
@@ -30,12 +46,12 @@ class SetPermission:
             logger.addHandler(handler)
         return logger
 
+    #@(#) ----------------------------------------------------------------
+    #@(@) Function: validate_user
+    #@(#) input: self
+    #@(#) return: true/false
+    #@(#) What: Validate that the username exists on the Linux system.
     def validate_user(self):
-        """
-        Validate that the username exists on the Linux system.
-
-        :return: True if the username exists, False otherwise.
-        """
         username = self.config.get('username')
         if not username:
             self.logger.error("Username is not specified in the configuration.")
@@ -49,12 +65,12 @@ class SetPermission:
             self.logger.error(f"Username '{username}' does not exist on the system.")
             return False
 
+    #@(#) ----------------------------------------------------------------
+    #@(@) Function: convert_access_rights
+    #@(#) input: self
+    #@(#) return: Integer representation of access rights, or None if invalid.
+    #@(#) What: Convert access rights from string to integer (octal).
     def convert_access_rights(self):
-        """
-        Convert access rights from string to integer (octal).
-
-        :return: Integer representation of access rights, or None if invalid.
-        """
         access_rights = self.config.get('accessrights')
         if not access_rights:
             self.logger.error("Access rights are not specified in the configuration.")
@@ -68,12 +84,12 @@ class SetPermission:
             self.logger.error(f"Invalid access rights format: '{access_rights}'. Must be an octal string like '0o755'.")
             return None
 
+    #@(#) ----------------------------------------------------------------
+    #@(@) Function:set_permissions
+    #@(#) input: self
+    #@(#) return: True/False
+    #@(#) What: Recursively set ownership and permissions on the given directory.
     def set_permissions(self):
-        """
-        Recursively set ownership and permissions on the given directory.
-
-        :return: True if all operations are successful, False otherwise.
-        """
         username = self.config.get('username')
         permissions = self.convert_access_rights()
 
@@ -107,10 +123,10 @@ class SetPermission:
 # Example Usage:
 if __name__ == "__main__":
     config = {
-        'username': 'ketilheggtveit',
+        'username': 'myuser',
         'accessrights': '0o755'
     }
-    directory = '/opt/nmapwrap/data/FullerLN'
+    directory = '/opt/nmapwrap/data/TestDate'
 
     # Set up logging
     logger = logging.getLogger("PermissionManagerExample")

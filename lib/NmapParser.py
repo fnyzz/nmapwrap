@@ -9,10 +9,11 @@
 #@(#) ----------------------------------------------------------------
 #@(#) Name      :       Validator.py
 #@(#) ----------------------------------------------------------------
-#@(#) Author: Ketil $
+#@(#) Author : Ketil $
 #@(#) Purpose: Parses the Nmap ping and writes hosts to
 #@(#)          onlinehosts.client.txt who is online
-#@(#)     Invoked by:  Ketil
+#@(#) year   : 2025
+#@(#) Invoked by:  Ketil
 #@(#) ----------------------------------------------------------------
 
 import xml.etree.ElementTree as ET
