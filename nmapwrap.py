@@ -171,6 +171,11 @@ def main (argv):
             ClientDict = mconfig.get("client")
             NmapBIN    = mconfig.get("sources", {}).get("nmap")
 
+        except SystemExit as e:
+            logger.warning(f"Directory management failed with exit code: {e.code}")
+            sys.exit()
+
+        try:
             #(@) + ----------------------------------------------
             #(@) + Looping over all the different Nmap settings
             #(@) + There has to be at least 2
@@ -226,10 +231,10 @@ def main (argv):
             logger.debug (f" SetPermission with thisinfo : {directory}")
             permission_setter = SetPermission(user_info, directory, logger)
             permission_setter.set_permissions()
-
         except SystemExit as e:
-            logger.warning(f"Directory management failed with exit code: {e.code}")
+            logger.warning(f"Running nmap failed (nmapwrap.py) : {e.code}")
             sys.exit()
+
 
         logger.info("Program stop successfully" )
 
