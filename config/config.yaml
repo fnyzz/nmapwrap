@@ -1,0 +1,59 @@
+#@(#)________________________________________________________________
+#@(#) Copyright(C) 2025 fnyxzz
+#@(#) All rights reserved.
+#@(#)
+#@(#) Use and distribution of this software and its source code
+#@(#) are governed by the terms and conditions of the
+#@(#) fnyxzz lisence ("LICENSE.TXT")
+#@(#) ----------------------------------------------------------------
+#@(#) Name          :       config.yaml
+#@(#) Author        :       Ketil Heggtveit
+#@(#) ----------------------------------------------------------------
+#@(#) Description   :       Configuration file for the nmapwrap 
+#@(#)                       program 
+#@(#) Default Location:     /opt/nmapwrap
+#@(#) ----------------------------------------------------------------
+#  +  ---------------------------------------------------------------- 
+#  +  Application definition 
+#  +  ---------------------------------------------------------------- 
+app:
+  name: nmapwrap
+  version: 1.0.0
+  environment: production
+
+#  +  ---------------------------------------------------------------- 
+#  +  local directories environment 
+#  +  std. env needed to run and store data. 
+#  +  This can be any available directory 
+#  +  root will create the dirs and give the ownership to the uid 
+#  +  ---------------------------------------------------------------- 
+installation:
+  root:     /opt/nmapwrap
+  nmapdata: /opt/nmapwrap/data
+  export:   /opt/nmapwrap/export 
+#  +  ---------------------------------------------------------------- 
+#  +  uid 
+#  +  userid and access rights for the nmap data 
+#  +  ---------------------------------------------------------------- 
+uid: 
+  username: myuser
+  accessrights: "0o755"
+
+#  +  ---------------------------------------------------------------- 
+#  +  Logging configuration 
+#  +  output level, logfilename, location 
+#  +  This filename is NOT rotated by nmapwrap program 
+#  +  ---------------------------------------------------------------- 
+logging:
+  level: DEBUG
+  file: nmapwrap.log
+  dir:  /opt/nmapwrap/logs 
+
+#  +  ---------------------------------------------------------------- 
+#  +  sources 
+#  +  list of binaries which needs to be installed 
+#  +  These are pre-requisite needed 
+#  +  ---------------------------------------------------------------- 
+sources:
+   nmap: /opt/homebrew/bin//nmap
+   rsync: /usr/bin/rsync

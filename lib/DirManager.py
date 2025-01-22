@@ -43,10 +43,9 @@ class DirManager:
     #@(#)
     def validate_directories(self):
         self.logger.debug("Starting directory validation.")
-
         invalid_directories = []
 
-        # Validate installation directories
+        #(#) +  Validate installation directories
         installation_dirs = self.config.get('installation', {})
 
         for key, path in installation_dirs.items():
@@ -56,7 +55,7 @@ class DirManager:
             else:
                 self.logger.debug(f"Validated installation directory:{key}- {path}")
 
-        # Validate client directories
+        #(#) +  Validate client directories
         client_config = self.config.get('client', {})
         client_home = client_config.get('clienthome')
         client_name = client_config.get('name')
@@ -89,7 +88,7 @@ class DirManager:
 
         failed_directories = []
 
-        # Create installation directories
+        #(#) +  Create installation directories
         installation_dirs = self.config.get('installation', {})
         for key, path in installation_dirs.items():
             if not os.path.exists(path):
@@ -102,21 +101,21 @@ class DirManager:
             else:
                 self.logger.info(f"Directory already exists: {path}")
 
-        # Create client directories
+        #(#) +  Create client directories
         client_config = self.config.get('client', {})
         client_home = client_config.get('clienthome')
         client_name = client_config.get('name')
 
         if client_home and client_name:
             try:
-                # Create the client home directory if it doesn't exist
+                #(#) +  Create the client home directory if it doesn't exist
                 if not os.path.exists(client_home):
                     os.makedirs(client_home, exist_ok=True)
                     self.logger.info(f"Created client home directory: {client_home}")
                 else:
                     self.logger.debug(f"Client home directory already exists: {client_home}")
 
-                # Create the client name subdirectory
+                #(#) +  Create the client name subdirectory
                 client_name_path = os.path.join(client_home, client_name)
                 if not os.path.exists(client_name_path):
                     os.makedirs(client_name_path, exist_ok=True)
@@ -160,7 +159,7 @@ class DirManager:
             self.logger.error(f"User '{username}' does not exist on the system.")
             return False
 
-        # Convert access rights from string to integer (octal)
+        #(#) +  Convert access rights from string to integer (octal)
         try:
             permissions = int(access_rights, 8)
             self.logger.debug(f"Converted access rights '{access_rights}' to integer: {permissions}")
@@ -171,7 +170,7 @@ class DirManager:
         success = True
 
 
-        # Set permissions for client directories
+        #(#) +  Set permissions for client directories
         client_config = self.config.get('client', {})
         client_home = client_config.get('clienthome')
         client_name = client_config.get('name')
