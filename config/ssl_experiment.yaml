@@ -19,7 +19,7 @@
 client:
   name: ssl_experiment
   clienthome : /opt/nmapwrap/data/
-  clientip: 192.168.204.1/24 192.168.233.1/24
+  clientip: 151.101.67.5 
 
 #  +  ---------------------------------------------------------------- 
 #  +  nmap discover settings 

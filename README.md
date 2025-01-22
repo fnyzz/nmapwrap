@@ -28,16 +28,20 @@ This is the program flow of the nmapwrap.py:
 
 
 ## 🚀 Quick Start 
-There are two yaml config files. One called config.yaml where you 
+The nmapwrap.py needs two yaml configuration files. config.yaml and one for each environment you want to scan. 
+In the examples directory you'll find example file you may use. 
+The config.yaml file: 
+- copy the examples/config.yaml to the config directory 
 - spesify the user name who will own the nmap files 
 - list the full path to where nmap is installed 
 - where you want the nmap data to be stored. 
 
-Then there is the input option --config config/TestClient.yaml 
-The yaml config has 3 section: 
-1. Name of the scan, where to store the data and a list of IP to scan. 
-2. The Nmap discovery section. You may add more than one section where you do 
-3. The Nmap section where you spesify what ports to scan etc. 
+The input option --config config/TestClient.yaml 
+copy an example file from the examples directory to the config directory ( or where ever you 
+want to store these config files). These yaml config files has 3 section: 
+- Name of the scan, where to store the data and a list of IP to scan. 2
+- The Nmap discovery section. We are running a ICMP ping and then a TCP ping 
+- The section for Nmap -sS scan. You may have more than one section like this 
 
 ```sh
 $ sudo python3 ./nmapwrap.py  --config config/myclient.yaml 
@@ -45,6 +49,18 @@ $ sudo python3 ./nmapwrap.py  --config config/myclient.yaml
 
 **Installation**
 ```bash
+# Copy the examples/config.yaml to config directory
+$ cp examples/config.yaml config 
+
+# Edit this file. Spesify your nmap location and the username you want to be the owner of the 
+# resulting data 
+
+# Create your configuration file, there are examples in the examples dir. 
+# Copy to the config directory 
+$  cp examples/ssl_experiment.yaml config/
+
+# Edit this file to what you are scanning, name of file, etc. 
+
 # Create a virtual environment where you install Python: 
 $ python -m venv ~/venv 
 
