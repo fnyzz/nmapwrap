@@ -1,4 +1,4 @@
 # .gitignore
-./config/* 
-./config/*.yaml
+config/* 
+config/*.yaml
 
