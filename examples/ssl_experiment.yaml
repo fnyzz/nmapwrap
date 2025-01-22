@@ -59,7 +59,6 @@ nmap_ssl:
   order: 2
   scan-type: normal
   suffix: tcp
-  genonlinehosts: True
   scanflag: -sV -sC 
   max-hostgroup: 150
   max-retries: 4
