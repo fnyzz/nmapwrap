@@ -17,6 +17,7 @@
 #@(#) ----------------------------------------------------------------
 import subprocess
 import sys
+import re
 from time import strftime
 from datetime import datetime
 import time
@@ -74,6 +75,26 @@ class NmapRunner:
         self.logger.debug(f"  client_data: {self.client_data}")
         self.logger.debug(f"  nmap_path: {self.nmap_path}")
         self.logger.debug(f"  nmap_config: {self.nmap_config}")
+
+    #@(#) ----------------------------------------------------------------
+    #@(@) Function: _replace_in_list
+    #@(#) input: self
+    #@(#) What:  Replace the -oA|-oN|-oX|-oS|-oG <scantype>
+    #@(#)        with new_reportstring
+    #@(#) return: a string: new command line
+    #@(#)
+    def _replace_in_list(self,lst,new_reportstring):
+        pattern = r"\s*(-oA|-oN|-oX|-oS|-oG)\s+(.+)"
+
+        for i, element in enumerate(lst):
+            match = re.match(pattern, element)
+            if match:
+                # Preserve leading spaces, replace the old string (group 2) with new_string
+                leading_spaces = element[:match.start(1)]  # Capture leading spaces
+                prefix = match.group(1)  # Capture the prefix (e.g., -oA)
+                lst[i] = f"{leading_spaces}{prefix} {new_reportstring}"
+        return lst
+
 
     #@(#) ----------------------------------------------------------------
     #@(@) Function: _build_command
@@ -169,10 +190,7 @@ class NmapRunner:
         #(#) +  Nmap output filename.
         #(#) +  Converting from List object to String.
         #(#) +  Conflickt
-        #(#) +  Client name : in config.yaml
-        #(#) +  CANNOT have same content as the scantype - then this sub will make program crash
-        #(#) +  NB! known feature.
-        command = [item.replace(scantype, FullPathReport) if scantype in item else item for item in command]
+        command = self._replace_in_list(command, FullPathReport)
         command = " ".join(command)
 
         if self.logger:
