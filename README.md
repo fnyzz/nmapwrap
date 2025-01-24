@@ -1,14 +1,14 @@
 # <img src="images/Viking_Helmet.png" alt="Nmapwrap.py" style="width:5%; height:auto;"> Nmapwrap
 
 NmapWrap is a Python-based tool designed to automate Nmap scanning in production environments, where scheduled scans target multiple networks. Using a YAML configuration file, NmapWrap performs two key scans:
-
 1. Discovery Scan: Identifies online hosts via ICMP ping and user-specified ports. The results are saved to a file (e.g., onlinehosts.TestClient.txt).
 2. TCP Scan: Performs in-depth scans on the online hosts identified in the discovery phase.
 This structure enables you to manage separate YAML configuration files for different network segments, clients, or services, all while maintaining a standard config.yaml for global settings like file ownership and Nmap installation paths.
 
 ## 🌟 Features
-- Repetable Nmap scan with the same parameter  easily configured in yaml config files 
+- Repetable Nmap scan with the same parameter easily configured in yaml config files 
 - Control Nmap parameter with yaml files 
+- Do a quick scan and get temporary result while the long and slow tcp -p- scan is running
 - Audit trail of all nmap scans 
 - Name nmap result file on a logical basis
 - Run multiple Nmap scan without loosing logging
@@ -109,27 +109,6 @@ examples of usage:
 sudo ./nmapwrap.py --config config/myclient.yaml
 sudo ./nmapwrap.py --config config/myclient.yaml --quiet
 ```
-
-```bash 
-Crontab examples: 
-# * * * * * command to be executed
-# | | | | |
-# | | | | |
-# | | | | |
-# | | | | |_______________ Day of the Week (0 - 6)(Sunday to Saturday)
-# | | | |_______________ Month of the Year (1 - 12)
-# | | |_______________ Day of the Month (1 - 31)
-# | |_______________ Hour (0 - 23)
-# |_______________ Minute (0 - 59)
-#
-# run every Friday at 0300 => --quiet produces not terminal output 
-# 03 00 * * 5 /home/myuser/venv/bin/python /home/myuser/nmapwrap/nmapwrap.py --config /home/myuser/nmapwrap/config/ssl_experiment.yaml  --quiet
-# run the first of every month ay at 0300 =>  output is redirected to /dev/null 2>&1 
-# 03 00 * 1 * /home/myuser/venv/bin/python /home/myuser/nmapwrap/nmapwrap.py --config /home/myuser/nmapwrap/config/ssl_experiment.yaml >/dev/null 2>&1
-```
-It's safe to run quiet or pipe to /dev/null. Everything is logged in the logs. 
-
-
 ** Example configuration ** 
 
 ```yaml

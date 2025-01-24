@@ -17,7 +17,7 @@
 #  +  Client information 
 #  +  ---------------------------------------------------------------- 
 client:
-  name: internal_full
+  name: internal_all
   clienthome : /opt/nmapwrap/data/
   clientip: 10.0.0.0/24 
 

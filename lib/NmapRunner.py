@@ -168,7 +168,10 @@ class NmapRunner:
         #(#) +  Replacing the 'scan-type' in the command with the correct
         #(#) +  Nmap output filename.
         #(#) +  Converting from List object to String.
-        #(#) +
+        #(#) +  Conflickt
+        #(#) +  Client name : in config.yaml
+        #(#) +  CANNOT have same content as the scantype - then this sub will make program crash
+        #(#) +  NB! known feature.
         command = [item.replace(scantype, FullPathReport) if scantype in item else item for item in command]
         command = " ".join(command)
 
