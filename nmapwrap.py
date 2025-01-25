@@ -5,7 +5,7 @@
 #@(#) All rights reserved.
 #@(#)
 #@(#)  MIT License
-#@(#)  Copyright (c) [YEAR] [YOUR NAME OR ORGANIZATION]
+#@(#)  Copyright (c) [2025] [Ketil Heggtveit]
 #@(#)  See LICENSE file for full license text.
 #@(#) ----------------------------------------------------------------
 #@(#) Name      :       nmapwrap
