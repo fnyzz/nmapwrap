@@ -24,6 +24,7 @@ import time
 import re
 from time import strftime
 from datetime import datetime
+from optparse import OptionParser
 
 #(#) + ---------------------------------------------------------------
 #(#) + project files, located in ./lib directories.
@@ -33,7 +34,6 @@ from ConfigReader import ConfigReader
 from Validator import Validator
 from LogCreator import LoggerCreator
 from DirManager import DirManager
-from optparse import OptionParser
 from UUIDGenerator import UUIDGenerator
 from NmapRunner import NmapRunner
 from SetPermission import SetPermission
@@ -77,6 +77,8 @@ program = os.path.basename(sys.argv[0] )
 #  +  -----------------------------------------------------------
 #  +  Checking if the main configfile
 #  +  exists
+now = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
+
 if not os.path.isfile(nmapwrapConfig):
     print (f"{now} Error: Need the std yaml config file! {nmapwrapConfig}")
     print (f"{now} Read the README.md file ")
@@ -87,7 +89,6 @@ if not os.path.isfile(nmapwrapConfig):
 def main (argv):
     #  +  -----------------------------------------------------------
     #  +  Checking if we have a spesific config file.
-    now = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
     if options.config:
         ClientConfigFile = options.config
     else:
